@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: tanda_blog_app
+    working_dir: /var/www/backend
+    volumes:
+      - ./:/var/www
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: tanda_blog
+      DB_USERNAME: tanda
+      DB_PASSWORD: tanda
+
+  db:
+    image: mysql:8.0
+    container_name: tanda_blog_db
+    environment:
+      MYSQL_DATABASE: tanda_blog
+      MYSQL_USER: tanda
+      MYSQL_PASSWORD: tanda
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: tanda_blog_redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  dbdata:
