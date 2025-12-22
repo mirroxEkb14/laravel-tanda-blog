@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Actions\DeleteAction;
 
 class BlogCategoriesTable
 {
@@ -35,6 +36,13 @@ class BlogCategoriesTable
             ])
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make()
+                    ->disabled(fn ($record) => (int) $record->articles_count > 0)
+                    ->tooltip(fn ($record) =>
+                        (int) $record->articles_count > 0
+                            ? 'Cannot delete category that is assigned to articles'
+                            : null
+                    ),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

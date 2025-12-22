@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Filament\Actions\BulkAction;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Collection;
+use Filament\Actions\DeleteAction;
 
 /**
  * "BulkActionGroup" force-publishes selected articles and downgrades selected articles back to draft
@@ -62,7 +63,8 @@ class BlogArticlesTable
             ])
             ->defaultSort('publish_at', 'desc')
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()->requiresConfirmation(),
+                DeleteAction::make()->requiresConfirmation(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
