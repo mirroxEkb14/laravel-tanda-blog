@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\BlogArticle;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
+use App\Http\Resources\Blog\BlogArticleListResource;
+use App\Http\Resources\Blog\BlogArticleResource;
+use App\Http\Resources\Blog\BlogCategoryResource;
+use App\Http\Resources\Blog\BlogTagResource;
 
 class BlogController extends Controller
 {
@@ -45,11 +49,20 @@ class BlogController extends Controller
             });
         }
 
+        $perPage = min(50, max(1, (int) $request->get('per_page', 12)));
         $articles = $query
             ->orderByDesc('publish_at')
-            ->paginate(perPage: min(50, max(1, (int) $request->get('per_page', 12))));
+            ->paginate(perPage: $perPage);
 
-        return response()->json($articles);
+        return response()->json([
+            'data' => BlogArticleListResource::collection($articles->items()),
+            'meta' => [
+                'page' => $articles->currentPage(),
+                'per_page' => $articles->perPage(),
+                'total' => $articles->total(),
+                'last_page' => $articles->lastPage(),
+            ],
+        ]);
     }
 
     /**
@@ -69,29 +82,7 @@ class BlogController extends Controller
             ->firstOrFail();
 
         $article->increment('views_count');
-
-        return response()->json([
-            'id' => $article->id,
-            'title' => $article->title,
-            'slug' => $article->slug,
-            'excerpt' => $article->excerpt,
-            'content' => $article->content,
-            'cover_image' => $article->cover_image,
-            'reading_time' => $article->reading_time,
-            'publish_at' => optional($article->publish_at)?->toDateTimeString(),
-            'views_count' => $article->views_count,
-            'category' => $article->category,
-            'tags' => $article->tags,
-            'author' => $article->author,
-            'related_types' => $article->related_types,
-            'related_institutions' => $article->related_institutions,
-            'seo' => [
-                'title' => $article->seo_title,
-                'description' => $article->seo_description,
-                'keywords' => $article->seo_keywords,
-                'canonical_url' => $article->canonical_url,
-            ],
-        ]);
+        return new BlogArticleResource($article->load(['category', 'tags', 'author']));
     }
 
     /**
@@ -99,11 +90,8 @@ class BlogController extends Controller
      */
     public function categories()
     {
-        return response()->json(
-            BlogCategory::query()
-                ->select(['id', 'name', 'slug'])
-                ->orderBy('name')
-                ->get()
+        return BlogCategoryResource::collection(
+            BlogCategory::query()->orderBy('name')->get()
         );
     }
 
@@ -112,11 +100,8 @@ class BlogController extends Controller
      */
     public function tags()
     {
-        return response()->json(
-            BlogTag::query()
-                ->select(['id', 'name', 'slug'])
-                ->orderBy('name')
-                ->get()
+        return BlogTagResource::collection(
+            BlogTag::query()->orderBy('name')->get()
         );
     }
 
@@ -151,6 +136,6 @@ class BlogController extends Controller
             ->limit(6)
             ->get();
 
-        return response()->json($items);
+        return BlogArticleListResource::collection($items);
     }
 }
