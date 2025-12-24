@@ -21,4 +21,20 @@ class BlogCategory extends Model
     {
         return $this->hasMany(BlogArticle::class, 'category_id');
     }
+
+    /**
+     * Determines if this category's used by at least one article
+     */
+    public function isUsed(): bool
+    {
+        if (array_key_exists('articles_count', $this->attributes)) {
+            return (int) $this->attributes['articles_count'] > 0;
+        }
+        return $this->articles()->exists();
+    }
+
+    public function deleteBlockReason(): string
+    {
+        return 'Cannot delete category assigned to articles';
+    }
 }

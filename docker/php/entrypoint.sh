@@ -15,8 +15,12 @@ do
   sleep 1
 done
 
+echo "==> Ensuring storage/cache directories exist..."
+mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
+chmod -R 775 storage bootstrap/cache >/dev/null 2>&1 || true
+
 echo "==> Installing composer dependencies (if needed)..."
-if [ ! -d "vendor" ]; then
+if [ ! -f "vendor/autoload.php" ]; then
   composer install --no-interaction --prefer-dist
 fi
 
@@ -27,9 +31,14 @@ echo "==> Running migrations..."
 php artisan migrate --force
 
 echo "==> Creating storage link..."
-php artisan storage:link || true
+php artisan storage:link >/dev/null 2>&1 || true
 
-php artisan db:seed --force || true
+echo "==> Seeding database (if empty)..."
+if ! php artisan tinker --execute="echo \App\Models\BlogArticle::query()->exists() ? 'yes' : 'no';" | grep -q yes; then
+  php artisan db:seed --force
+else
+  echo "Skip seeding: demo data already exists."
+fi
 
 echo "==> Starting Laravel server..."
 exec php artisan serve --host=0.0.0.0 --port=8080

@@ -23,4 +23,20 @@ class BlogTag extends Model
             'blog_article_id'
         );
     }
+
+    /**
+     * Determines if the tag is used by any articles
+     */
+    public function isUsed(): bool
+    {
+        if (array_key_exists('articles_count', $this->attributes)) {
+            return (int) $this->attributes['articles_count'] > 0;
+        }
+        return $this->articles()->exists();
+    }
+
+    public function deleteBlockReason(): string
+    {
+        return 'Cannot delete tag assigned to articles';
+    }
 }

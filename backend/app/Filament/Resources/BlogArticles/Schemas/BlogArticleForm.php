@@ -12,7 +12,10 @@ use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\CheckboxList;
 use Illuminate\Support\Str;
+use App\Rules\EnumArray;
+use App\Enums\InstitutionType;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
 
@@ -95,13 +98,12 @@ class BlogArticleForm
             Section::make('Institution relations')
                 ->collapsed()
                 ->schema([
-                    TextInput::make('related_types')
-                        ->helperText('Example: school, kindergarten')
-                        ->dehydrateStateUsing(fn ($state) => blank($state)
-                            ? null
-                            : array_values(array_filter(array_map('trim', explode(',', $state)))))
-                        ->formatStateUsing(fn ($state) => is_array($state) ? implode(', ', $state) : $state)
-                        ->columnSpanFull(),
+                    CheckboxList::make('related_types')
+                        ->label('Institution types')
+                        ->options(InstitutionType::options())
+                        ->columns(2)
+                        ->helperText('Used for filtering articles by institution context (e.g., type=school)')
+                        ->rules(['nullable', new EnumArray(InstitutionType::class)]),
                     TextInput::make('related_institutions')
                         ->helperText('Example: 101, 202')
                         ->dehydrateStateUsing(fn ($state) => blank($state)
@@ -131,11 +133,19 @@ class BlogArticleForm
                 ->schema([
                     Select::make('status')
                         ->required()
-                        ->options([
-                            'draft' => 'Draft',
-                            'scheduled' => 'Scheduled',
-                            'published' => 'Published',
-                        ])
+                        ->options(function ($record) {
+                            if ($record?->status === 'published') {
+                                return [
+                                    'scheduled' => 'Scheduled',
+                                    'published' => 'Published',
+                                ];
+                            }
+                            return [
+                                'draft' => 'Draft',
+                                'scheduled' => 'Scheduled',
+                                'published' => 'Published',
+                            ];
+                        })
                         ->default('draft')
                         ->live()
                         ->helperText('If you set Published with a future Publish at, it will be treated as Scheduled automatically'),

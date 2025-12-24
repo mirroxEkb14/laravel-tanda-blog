@@ -48,22 +48,22 @@ laravel-tanda-blog/
 
 1. Clone the repository:
 ```code
-git clone git@gitlab.com:vance_7187-group/laravel-tanda-blog.git
-cd laravel-tanda-blog
+> git clone git@gitlab.com:vance_7187-group/laravel-tanda-blog.git
+> cd laravel-tanda-blog
 ```
 2. Open */docker/php/entrypoint.sh* in Visual Studio and select **LF** instead of **CRLF** to avoid Windows-Linux line-endings problem.
 3. Start the containers:
 ```code
-docker compose up -d --build
+> docker compose up -d --build
 ```
-4. Open Admin panel on http://localhost:8080/admin after waiting containers setup up for ~10 minutes (until "*Press Ctrl+C to stop the server*" message in Docker Desktop).
+4. Open Admin panel on http://localhost:8080/admin after waiting containers setup up for ~1 minute (until "*Press Ctrl+C to stop the server*" message in Docker Desktop).
     -  Default admin credentials: admin@tandateam.kz, qwerty123456.
 5. Test the API endpoints (returned as JSON).
     - Articles are only with 'published' status (not draft, scheduled, or published with a future 'publish_at').
 ```code
-curl http://localhost:8080/api/blog/articles
-curl http://localhost:8080/api/blog/categories
-curl http://localhost:8080/api/blog/tags
+> curl http://localhost:8080/api/blog/articles
+> curl http://localhost:8080/api/blog/categories
+> curl http://localhost:8080/api/blog/tags
 ```
 
 ## 📩 Contacts

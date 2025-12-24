@@ -7,6 +7,7 @@ use App\Filament\Resources\BlogArticles\Pages\EditBlogArticle;
 use App\Filament\Resources\BlogArticles\Pages\ListBlogArticles;
 use App\Filament\Resources\BlogArticles\Schemas\BlogArticleForm;
 use App\Filament\Resources\BlogArticles\Tables\BlogArticlesTable;
+use App\Filament\Resources\BlogArticles\Pages\ViewBlogArticle;
 use App\Models\BlogArticle;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -44,6 +45,7 @@ class BlogArticleResource extends Resource
         return [
             'index' => ListBlogArticles::route('/'),
             'create' => CreateBlogArticle::route('/create'),
+            'view' => ViewBlogArticle::route('/{record}'),
             'edit' => EditBlogArticle::route('/{record}/edit'),
         ];
     }

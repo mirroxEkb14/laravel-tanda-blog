@@ -8,6 +8,10 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
+use Illuminate\Database\Eloquent\Collection;
+use Filament\Notifications\Notification;
+use App\Models\BlogCategory;
 
 class BlogCategoriesTable
 {
@@ -35,18 +39,30 @@ class BlogCategoriesTable
                 //
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make()
-                    ->disabled(fn ($record) => (int) $record->articles_count > 0)
-                    ->tooltip(fn ($record) =>
-                        (int) $record->articles_count > 0
-                            ? 'Cannot delete category that is assigned to articles'
-                            : null
-                    ),
+                    ->disabled(fn ($record) => $record->isUsed())
+                    ->tooltip(fn ($record) => $record->isUsed() ? $record->deleteBlockReason() : null),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->before(function (Collection $records, DeleteBulkAction $action) {
+                            $ids = $records->pluck('id')->all();
+                            $usedCount = BlogCategory::query()
+                                ->whereIn('id', $ids)
+                                ->whereHas('articles')
+                                ->count();
+                            if ($usedCount > 0) {
+                                Notification::make()
+                                    ->title('Cannot delete selected categories')
+                                    ->body("{$usedCount} of the selected category(ies) are assigned to articles")
+                                    ->danger()
+                                    ->send();
+                                $action->cancel();
+                            }
+                        }),
                 ]),
             ]);
     }

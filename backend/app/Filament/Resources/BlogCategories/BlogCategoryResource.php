@@ -7,6 +7,7 @@ use App\Filament\Resources\BlogCategories\Pages\EditBlogCategory;
 use App\Filament\Resources\BlogCategories\Pages\ListBlogCategories;
 use App\Filament\Resources\BlogCategories\Schemas\BlogCategoryForm;
 use App\Filament\Resources\BlogCategories\Tables\BlogCategoriesTable;
+use App\Filament\Resources\BlogCategories\Pages\ViewBlogCategory;
 use App\Models\BlogCategory;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -44,6 +45,7 @@ class BlogCategoryResource extends Resource
         return [
             'index' => ListBlogCategories::route('/'),
             'create' => CreateBlogCategory::route('/create'),
+            'view' => ViewBlogCategory::route('/{record}'),
             'edit' => EditBlogCategory::route('/{record}/edit'),
         ];
     }

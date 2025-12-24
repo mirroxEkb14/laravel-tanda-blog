@@ -7,6 +7,7 @@ use App\Filament\Resources\BlogTags\Pages\EditBlogTag;
 use App\Filament\Resources\BlogTags\Pages\ListBlogTags;
 use App\Filament\Resources\BlogTags\Schemas\BlogTagForm;
 use App\Filament\Resources\BlogTags\Tables\BlogTagsTable;
+use App\Filament\Resources\BlogTags\Pages\ViewBlogTag;
 use App\Models\BlogTag;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -44,6 +45,7 @@ class BlogTagResource extends Resource
         return [
             'index' => ListBlogTags::route('/'),
             'create' => CreateBlogTag::route('/create'),
+            'view' => ViewBlogTag::route('/{record}'),
             'edit' => EditBlogTag::route('/{record}/edit'),
         ];
     }
