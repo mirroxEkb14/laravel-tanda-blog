@@ -2,6 +2,12 @@
 
 The project represents a standalone backend prototype for the **Blog/Articles** module of the Tanda startup project.
 
+## 🎥 Demo
+
+> A short demonstration of the app in action:
+
+[![Demo video](https://img.youtube.com/vi/.../0.jpg)](https://youtu.be/...)
+
 ## 🛠️ Tech Stack
 
 ![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)
@@ -51,22 +57,39 @@ laravel-tanda-blog/
 > git clone git@gitlab.com:vance_7187-group/laravel-tanda-blog.git
 > cd laravel-tanda-blog
 ```
-2. Open */docker/php/entrypoint.sh* in Visual Studio and select **LF** instead of **CRLF** to avoid Windows-Linux line-endings problem.
+2. Open */docker/php/entrypoint.sh* and */docker/php/entrypoint-scheduler.sh* in Visual Studio and select **LF** instead of **CRLF** to avoid Windows-Linux line-endings problem.
 3. Start the containers:
 ```code
 > docker compose up -d --build
 ```
 4. Open Admin panel on http://localhost:8080/admin after waiting containers setup up for ~1 minute (until "*Press Ctrl+C to stop the server*" message in Docker Desktop).
     -  Default admin credentials: admin@tandateam.kz, qwerty123456.
-5. Test the API endpoints (returned as JSON).
-    - Articles are only with 'published' status (not draft, scheduled, or published with a future 'publish_at').
+
+## 📊 Test API endpoints
+
+- Test a list of articles with pagination, with filters: category, tag, type, search:
 ```code
-> curl http://localhost:8080/api/blog/articles
-> curl http://localhost:8080/api/blog/categories
-> curl http://localhost:8080/api/blog/tags
+GET http://localhost:8080/api/blog/articles?page=1&per_page=12
+GET http://localhost:8080/api/blog/articles?category=schools
+GET http://localhost:8080/api/blog/articles?tag=education
+GET http://localhost:8080/api/blog/articles?type=school
+GET http://localhost:8080/api/blog/articles?search=private
+```
+
+- Test an article by slug, gworing 'views_count':
+```code
+GET http://localhost:8080/api/blog/articles/how-to-choose-private-school
+```
+
+- Test categories, tags and related articles:
+```code
+GET http://localhost:8080/api/blog/categories
+GET http://localhost:8080/api/blog/tags
+GET http://localhost:8080/api/blog/articles/2/related
 ```
 
 ## 📩 Contacts
 
 [![GitHub](https://img.shields.io/badge/GitHub-mirroxEkb14-181717?logo=github&logoColor=white)](https://github.com/mirroxEkb14)
 [![GitLab](https://img.shields.io/badge/GitLab-vance__7187-FCA121?logo=gitlab&logoColor=white)](https://gitlab.com/vance_7187)
+
