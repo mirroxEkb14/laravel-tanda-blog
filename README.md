@@ -6,7 +6,7 @@ The project represents a standalone backend prototype for the **Blog/Articles** 
 
 > A short demonstration of the app in action:
 
-[![Demo video](https://img.youtube.com/vi/.../0.jpg)](https://youtu.be/...)
+[![Demo video](https://img.youtube.com/vi/IxJ6bcleUGE/0.jpg)](https://youtu.be/IxJ6bcleUGE)
 
 ## 🛠️ Tech Stack
 
@@ -86,6 +86,11 @@ GET http://localhost:8080/api/blog/articles/how-to-choose-private-school
 GET http://localhost:8080/api/blog/categories
 GET http://localhost:8080/api/blog/tags
 GET http://localhost:8080/api/blog/articles/2/related
+```
+
+- Test errors:
+```code
+GET http://localhost:8080/api/blog/articles/no-such-slug
 ```
 
 ## 📩 Contacts
