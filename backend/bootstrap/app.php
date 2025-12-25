@@ -10,6 +10,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+/**
+ * Returns consistent JSON like exceptions for API requests only (not HTML error / default Laravel debug pages).
+ * Invalid input returns "400 Bad Request" (not "422 Unprocessable Entity").
+ * For any other than 400, 403, 404 errors, it returns 'Server error'.
+ * 500 errors are logged, client gets generic "Server error" message.
+ */
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',

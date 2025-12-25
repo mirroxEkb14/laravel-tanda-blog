@@ -8,10 +8,11 @@ use Illuminate\Support\Str;
 /**
  * Observer holds lifecycle rules and runs on save (create/update) to keep data consistent.
  * 
- * Ensures slug exists for SEO-friendly routes (auto-fill if not set manually).
- * Calculates reading time from HTML content (HTML -> plain text -> word count -> minutes (approx. 200 wpm)).
+ * Auto-generates slug if missing.
+ * Calculates reading time from HTML content (HTML -> plain text -> word count -> minutes (approx. 200 wpm)),
+ *      ensures at least 1 minute if there is content and rounds up (201 words -> 2 minutes).
  * Ensures scheduling safety ("scheduled" without "publish_at" is invalid => fallback to draft).
- * If an editor sets "published" with a future "publish_at", treats it as "scheduled" until "publish_at" time arrives.
+ * If "published" is set with a future "publish_at", treats it as "scheduled" until "publish_at" time arrives.
  */
 class BlogArticleObserver
 {

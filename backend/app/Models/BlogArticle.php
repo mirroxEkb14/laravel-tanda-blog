@@ -10,7 +10,7 @@ class BlogArticle extends Model
 {
     protected $table = 'blog_articles';
 
-    // mass-assignable attributes (in bulk)
+    // mass-assignable attributes (passed in one array)
     protected $fillable = [
         'category_id',
         'author_id',
@@ -31,7 +31,7 @@ class BlogArticle extends Model
         'canonical_url',
     ];
 
-    // attribute casting (automatic type conversion)
+    // attribute casting (automatic type conversion from DB to PHP)
     protected $casts = [
         'publish_at' => 'datetime',
         'related_types' => 'array',
@@ -58,7 +58,15 @@ class BlogArticle extends Model
         );
     }
 
-    // reusable query fragment gets published articles
+    /**
+     * Gets published articles (used in Controller for API).
+     * 
+     * If 'published' has 'published_at' as null, then visible.
+     * If 'published' has 'published_at' in the past, then visible.
+     * If 'published' has 'published_at' in the future, then not visible.
+     * If 'scheduled' has 'published_at' as any, then not visible.
+     * If 'draft' has 'published_at' as any, then not visible.
+     */
     public function scopePublished($query)
     {
         return $query->where('status', 'published')

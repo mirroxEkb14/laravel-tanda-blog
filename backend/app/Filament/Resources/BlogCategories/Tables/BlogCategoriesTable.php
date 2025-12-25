@@ -13,6 +13,11 @@ use Illuminate\Database\Eloquent\Collection;
 use Filament\Notifications\Notification;
 use App\Models\BlogCategory;
 
+/**
+ * "DeleteAction" in '->recordActions':        is disabled if a category is used (has articles),
+ * ""DeleteBulkAction" in '->toolbarActions':  checks for used categories before deletion. If even 1 category is in use,
+ *                                                  nothing gets deleted (“all-or-nothing”).
+ */
 class BlogCategoriesTable
 {
     public static function configure(Table $table): Table

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 /**
- * Validates that input value is an array of valid enum values
+ * Validates that an input is either null or an array of valid backed-enum values
  */
 class EnumArray implements ValidationRule
 {
@@ -29,7 +29,6 @@ class EnumArray implements ValidationRule
         }
 
         $allowed = array_map(fn ($c) => $c->value, ($this->enumClass)::cases());
-
         foreach ($value as $item) {
             if (! is_string($item) || ! in_array($item, $allowed, true)) {
                 $fail("The {$attribute} contains an invalid value");

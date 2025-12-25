@@ -7,6 +7,9 @@ use Filament\Actions\EditAction;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\ViewRecord;
 
+/**
+ * "DeleteAction" ensures if the tag is currently used by one or more blog articles, delete button is disabled
+ */
 class ViewBlogTag extends ViewRecord
 {
     protected static string $resource = BlogTagResource::class;

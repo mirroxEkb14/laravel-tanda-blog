@@ -16,13 +16,20 @@ class BlogController extends Controller
 {
     /**
      * Represents GET /api/blog/articles.
+     * Returns a paginated list of published articles with optional filters.
      * 
      * Base query: only publicly visible articles.
-     * Filter by category slug.
-     * ilter by tag slug.
-     * Filter by institution type context.
-     * Basic text search.
-     * Safe per_page bounds to prevent heavy queries.
+     * Filter by category slug ('?category=schools').
+     * Filter by tag slug ('?tag=education').
+     * Filter by institution type context ('?type=school').
+     * Basic text search ('?search=private').
+     * Safe 'per_page' bounds to prevent heavy queries (like 'per_page=10000' that'd kill DB) (?page=1&per_page=12).
+     * 
+     * Paginated list returns records in pages, each page containing a fixed number of items (not all records at once).
+     * Basically, instead of “get all 10 000 articles”, this returns “get page 1, with 12 articles per page”,
+     *      “now get page 2, again 12 articles” etc.
+     * 'per_page' is set to: default = 12, minimum = 1, maximum = 50.
+     * "meta" contains information about the pagination (not the articles themselves).
      */
     public function articles(Request $request)
     {
@@ -67,11 +74,10 @@ class BlogController extends Controller
 
     /**
      * Represents GET /api/blog/articles/{slug}.
+     * Returns one published article by slug.
      * 
-     * Increments views_count on open to track popularity.
-     * Optional relations are kept as JSON arrays until integrated into the main Institution domain
-     *      ('related_types', 'related_institutions').
-     * Optional SEO overrides (frontend should fallback to title/excerpt if empty) ('seo').
+     * Increments 'views_count' on open to track popularity.
+     * "->firstOrFail" ensures 404 if not found or not published.
      */
     public function articleBySlug(string $slug)
     {
@@ -87,6 +93,7 @@ class BlogController extends Controller
 
     /**
      * Represents GET /api/blog/categories.
+     * Returns all categories ordered by name.
      */
     public function categories()
     {
@@ -97,6 +104,7 @@ class BlogController extends Controller
 
     /**
      * Represents GET /api/blog/tags.
+     * Returns all tags ordered by name.
      */
     public function tags()
     {
@@ -107,9 +115,10 @@ class BlogController extends Controller
 
     /**
      * Represents GET /api/blog/articles/{id}/related.
+     * Returns up to 6 related published articles for a given article ID.
      * 
-     * Starts with same category as the strongest signal.
-     * Expands matches by shared tags / related types (OR conditions).
+     * Starts with same category as the strongest signal. Expands matches by shared tags / types (OR conditions).
+     * The logic returns (same category) OR (shares tags) OR (shares related_types).
      */
     public function related(int $id)
     {

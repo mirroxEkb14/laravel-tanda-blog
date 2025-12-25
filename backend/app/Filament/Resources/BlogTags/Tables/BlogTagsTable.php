@@ -12,6 +12,9 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Actions\ViewAction;
 
+/**
+ * Similarly to BlogCategoriesTable, "DeleteAction" and "DeleteBulkAction" are disabled if tags are in use (assigned to articles)
+ */
 class BlogTagsTable
 {
     public static function configure(Table $table): Table

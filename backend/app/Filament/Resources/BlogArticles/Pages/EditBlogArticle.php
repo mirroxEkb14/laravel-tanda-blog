@@ -12,6 +12,9 @@ class EditBlogArticle extends EditRecord
 {
     protected static string $resource = BlogArticleResource::class;
 
+    /**
+     * Represents custom “Move to draft” action
+     */
     protected function getHeaderActions(): array
     {
         return [
@@ -37,9 +40,7 @@ class EditBlogArticle extends EditRecord
     }
 
     /**
-     * Represents a hook executed before saving the article.
-     * Prevent bypassing confirmation by changing status in the dropdown.
-     * Keep published, user must use the Move to draft action.
+     * Prevents bypassing confirmation "Move to draft" by changing status ('published' -> 'draft') in the dropdown
      */
     protected function mutateFormDataBeforeSave(array $data): array
     {

@@ -20,8 +20,13 @@ use App\Models\BlogCategory;
 use App\Models\BlogTag;
 
 /**
- * "->afterStateUpdated" in 'Main':       auto-generates slug from title if not manually set
- * "->schema" in 'Institution relations': sets optional institution context for the article
+ * "->live" in 'Main':                    updates state after user leaves the field, not on every keystroke,
+ * "->afterStateUpdated" in 'Main':       auto-generates slug from title if not manually set,
+ * "->schema" in 'Institution relations': 'related_types' uses Enum, 'related_institutions' transforms "101, 102" into int array,
+ * "->schema" in 'Publication':           if already published, remove “draft” from the dropdown;
+ *                                        '->live()' affects if 'publish_at' visibility is required;
+ *                                        'publish_at' is required only when status is 'scheduled' and visible when status 'scheduled' or 'published';
+ *                                        '->dehydrated' means not to be sent back to be saved; it’s display-only in the form.
  */
 class BlogArticleForm
 {
