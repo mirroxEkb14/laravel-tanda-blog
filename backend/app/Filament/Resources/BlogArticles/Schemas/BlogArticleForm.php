@@ -20,6 +20,7 @@ use App\Enums\InstitutionType;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
 use App\Enums\BlogArticleStatus;
+use App\Support\ResourceHelper;
 
 /**
  * "->live" in 'Main':                    Updates state after user leaves the field, not on every keystroke,
@@ -47,12 +48,7 @@ class BlogArticleForm
                                 ->required()
                                 ->maxLength(255)
                                 ->live(onBlur: true)
-                                ->afterStateUpdated(function ($state, callable $set, $get) {
-                                    if (filled($get('slug'))) {
-                                        return;
-                                    }
-                                    $set('slug', Str::slug($state));
-                                }),
+                                ->afterStateUpdated(ResourceHelper::autoSlug('slug')),
                             TextInput::make('slug')
                                 ->required()
                                 ->maxLength(255)

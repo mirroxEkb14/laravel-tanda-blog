@@ -111,12 +111,6 @@ GET http://localhost:8080/api/blog/articles/no-such-slug
 - добавить XSS защиту (sanitization) (WYSIWYG),
 - реализовать блок Аналитики (фронт) (показатели views_count, related_articles, reading_time уже есть),
 - реализовать Future features
-
-- Enums for statutes,
-- central notification class, add notifications for each action (after Bulk actions etc.) (Notification::make),
-- in Forms "afterStateUpdated" as a separated func,
-- DeleteBulkAction in Categories and Tags are the same,
-- write separate rules for Observer,
 - update seeders: more complicated
 
 scope in publish commad $table, command Model -m, enum for Status, api to use Controller only once, paginated articles, articleBySlag – send the same query, blog in admin (dropdown, табы by categories or statuses), toggle btn featured, reorder for atricles, add ids,

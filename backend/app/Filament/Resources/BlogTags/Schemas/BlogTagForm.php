@@ -6,6 +6,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Illuminate\Support\Str;
+use App\Support\ResourceHelper;
 
 class BlogTagForm
 {
@@ -19,12 +20,7 @@ class BlogTagForm
                         ->required()
                         ->maxLength(80)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function ($state, callable $set, $get) {
-                            if (filled($get('slug'))) {
-                                return;
-                            }
-                            $set('slug', Str::slug($state));
-                        }),
+                        ->afterStateUpdated(ResourceHelper::autoSlug('slug')),
                     TextInput::make('slug')
                         ->required()
                         ->maxLength(120)

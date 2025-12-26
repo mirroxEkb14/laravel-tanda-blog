@@ -7,6 +7,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Illuminate\Support\Str;
+use App\Support\ResourceHelper;
 
 class BlogCategoryForm
 {
@@ -20,12 +21,7 @@ class BlogCategoryForm
                         ->required()
                         ->maxLength(120)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(function ($state, callable $set, $get) {
-                            if (filled($get('slug'))) {
-                                return;
-                            }
-                            $set('slug', Str::slug($state));
-                        }),
+                        ->afterStateUpdated(ResourceHelper::autoSlug('slug')),
                     TextInput::make('slug')
                         ->required()
                         ->maxLength(160)

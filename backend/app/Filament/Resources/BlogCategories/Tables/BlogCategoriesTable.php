@@ -12,6 +12,8 @@ use Filament\Actions\ViewAction;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\BlogCategory;
 use App\Support\AdminNotifications;
+use App\Support\ResourceHelper;
+use App\Models\BlogTag;
 
 /**
  * "DeleteAction" in '->recordActions':        Is disabled if a category is used (has articles),
@@ -54,15 +56,14 @@ class BlogCategoriesTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
                         ->before(function (Collection $records, DeleteBulkAction $action) {
-                            $ids = $records->pluck('id')->all();
-                            $usedCount = BlogCategory::query()
-                                ->whereIn('id', $ids)
-                                ->whereHas('articles')
-                                ->count();
-                            if ($usedCount > 0) {
-                                AdminNotifications::cannotDeleteCategories($usedCount);
-                                $action->cancel();
-                            }
+                            ResourceHelper::cancelBulkDeleteIfUsed(
+                                records: $records,
+                                action: $action,
+                                usedCountQuery: fn (array $ids) => BlogTag::query()
+                                    ->whereIn('id', $ids)
+                                    ->whereHas('articles'),
+                                notify: fn (int $usedCount) => AdminNotifications::cannotDeleteCategories($usedCount),
+                            );
                         }),
                 ]),
             ]);

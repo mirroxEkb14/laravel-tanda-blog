@@ -12,6 +12,8 @@ use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Actions\ViewAction;
 use App\Support\AdminNotifications;
+use App\Support\ResourceHelper;
+use App\Models\BlogTag;
 
 /**
  * Similarly to BlogCategoriesTable, "DeleteAction" and "DeleteBulkAction" are disabled if tags are in use (assigned to articles)
@@ -56,15 +58,14 @@ class BlogTagsTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make()
                         ->before(function (Collection $records, DeleteBulkAction $action) {
-                            $ids = $records->pluck('id')->all();
-                            $usedCount = \App\Models\BlogTag::query()
-                                ->whereIn('id', $ids)
-                                ->whereHas('articles')
-                                ->count();
-                            if ($usedCount > 0) {
-                                AdminNotifications::cannotDeleteTags($usedCount);
-                                $action->cancel();
-                            }
+                            ResourceHelper::cancelBulkDeleteIfUsed(
+                                records: $records,
+                                action: $action,
+                                usedCountQuery: fn (array $ids) => BlogTag::query()
+                                    ->whereIn('id', $ids)
+                                    ->whereHas('articles'),
+                                notify: fn (int $usedCount) => AdminNotifications::cannotDeleteTags($usedCount),
+                            );
                         })
                 ]),
             ]);
