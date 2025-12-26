@@ -10,8 +10,8 @@ use Filament\Tables\Table;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\ViewAction;
 use Illuminate\Database\Eloquent\Collection;
-use Filament\Notifications\Notification;
 use App\Models\BlogCategory;
+use App\Support\AdminNotifications;
 
 /**
  * "DeleteAction" in '->recordActions':        Is disabled if a category is used (has articles),
@@ -60,11 +60,7 @@ class BlogCategoriesTable
                                 ->whereHas('articles')
                                 ->count();
                             if ($usedCount > 0) {
-                                Notification::make()
-                                    ->title('Cannot delete selected categories')
-                                    ->body("{$usedCount} of the selected category(ies) are assigned to articles")
-                                    ->danger()
-                                    ->send();
+                                AdminNotifications::cannotDeleteCategories($usedCount);
                                 $action->cancel();
                             }
                         }),

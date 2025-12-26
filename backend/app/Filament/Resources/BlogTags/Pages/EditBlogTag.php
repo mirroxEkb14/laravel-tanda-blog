@@ -13,7 +13,10 @@ class EditBlogTag extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            DeleteAction::make(),
+            DeleteAction::make()
+                ->disabled(fn () => $this->record->isUsed())
+                ->tooltip(fn () => $this->record->isUsed() ? $this->record->deleteBlockReason() : null)
+                ->requiresConfirmation(),
         ];
     }
 }

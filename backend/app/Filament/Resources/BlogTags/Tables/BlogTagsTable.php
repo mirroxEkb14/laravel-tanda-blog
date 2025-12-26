@@ -11,6 +11,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Actions\ViewAction;
+use App\Support\AdminNotifications;
 
 /**
  * Similarly to BlogCategoriesTable, "DeleteAction" and "DeleteBulkAction" are disabled if tags are in use (assigned to articles)
@@ -61,11 +62,7 @@ class BlogTagsTable
                                 ->whereHas('articles')
                                 ->count();
                             if ($usedCount > 0) {
-                                Notification::make()
-                                    ->title('Cannot delete selected tags')
-                                    ->body("{$usedCount} of the selected tag(s) are assigned to articles")
-                                    ->danger()
-                                    ->send();
+                                AdminNotifications::cannotDeleteTags($usedCount);
                                 $action->cancel();
                             }
                         })

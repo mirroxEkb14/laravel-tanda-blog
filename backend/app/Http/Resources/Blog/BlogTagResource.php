@@ -5,9 +5,6 @@ namespace App\Http\Resources\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Resource exposes tags as lightweight metadata
- */
 class BlogTagResource extends JsonResource
 {
     /**

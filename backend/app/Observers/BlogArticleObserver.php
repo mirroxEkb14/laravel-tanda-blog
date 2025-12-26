@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\BlogArticle;
 use Illuminate\Support\Str;
+use App\Enums\BlogArticleStatus;
 
 /**
  * Observer holds lifecycle rules and runs on save (create/update) to keep data consistent.
@@ -31,12 +32,16 @@ class BlogArticleObserver
             $article->reading_time = 0;
         }
 
-        if ($article->status === 'scheduled' && blank($article->publish_at)) {
-            $article->status = 'draft';
+        if ($article->status === BlogArticleStatus::Scheduled->value && blank($article->publish_at)) {
+            $article->status = BlogArticleStatus::Draft->value;
         }
 
-        if ($article->status === 'published' && filled($article->publish_at) && $article->publish_at->isFuture()) {
-            $article->status = 'scheduled';
+        if (
+            $article->status === BlogArticleStatus::Published->value
+            && filled($article->publish_at)
+            && $article->publish_at->isFuture()
+        ) {
+            $article->status = BlogArticleStatus::Scheduled->value;
         }
     }
 

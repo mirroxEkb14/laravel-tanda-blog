@@ -5,8 +5,9 @@ namespace App\Filament\Resources\BlogArticles\Pages;
 use App\Filament\Resources\BlogArticles\BlogArticleResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
-use Filament\Notifications\Notification;
 use Filament\Actions\Action;
+use App\Enums\BlogArticleStatus;
+use App\Support\AdminNotifications;
 
 class EditBlogArticle extends EditRecord
 {
@@ -21,19 +22,16 @@ class EditBlogArticle extends EditRecord
             Action::make('moveToDraft')
                 ->label('Move to draft')
                 ->color('warning')
-                ->visible(fn () => $this->record->status === 'published')
+                ->visible(fn () => $this->record->status === BlogArticleStatus::Published->value)
                 ->requiresConfirmation()
                 ->modalHeading('Move article to draft?')
                 ->modalDescription('This will unpublish the article and remove it from the public API')
                 ->action(function () {
                     $this->record->update([
-                        'status' => 'draft',
+                        'status' => BlogArticleStatus::Draft->value,
                         'publish_at' => null,
                     ]);
-                    Notification::make()
-                        ->title('Article moved to draft')
-                        ->success()
-                        ->send();
+                    AdminNotifications::articleMovedToDraft();
                 }),
             DeleteAction::make(),
         ];
@@ -44,8 +42,11 @@ class EditBlogArticle extends EditRecord
      */
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if (($this->record->status ?? null) === 'published' && ($data['status'] ?? null) === 'draft') {
-            $data['status'] = 'published';
+        if (
+            ($this->record->status ?? null) === BlogArticleStatus::Published->value
+            && ($data['status'] ?? null) === BlogArticleStatus::Draft->value
+        ) {
+            $data['status'] = BlogArticleStatus::Published->value;
         }
         return $data;
     }

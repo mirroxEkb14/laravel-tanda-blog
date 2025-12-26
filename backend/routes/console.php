@@ -8,6 +8,7 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
+// scheduled publishing command runs every minute, one at a time, and only on one server
 Schedule::command('blog:publish-scheduled')
     ->everyMinute()
     ->withoutOverlapping()

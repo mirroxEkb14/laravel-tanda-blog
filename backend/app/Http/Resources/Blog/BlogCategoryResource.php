@@ -5,9 +5,6 @@ namespace App\Http\Resources\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Resource exposes categories to the frontend safely
- */
 class BlogCategoryResource extends JsonResource
 {
     /**

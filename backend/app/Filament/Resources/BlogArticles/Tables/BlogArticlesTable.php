@@ -15,10 +15,11 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
-use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\BlogCategory;
+use App\Enums\BlogArticleStatus;
+use App\Support\AdminNotifications;
 
 /**
  * "BulkActionGroup" force-publishes selected articles and downgrades selected articles back to draft
@@ -59,11 +60,7 @@ class BlogArticlesTable
                     ->label('Category')
                     ->relationship('category', 'name'),
                 SelectFilter::make('status')
-                    ->options([
-                        'draft' => 'Draft',
-                        'scheduled' => 'Scheduled',
-                        'published' => 'Published',
-                    ]),
+                    ->options(BlogArticleStatus::options()),
                 SelectFilter::make('author_id')
                     ->label('Author')
                     ->relationship('author', 'name'),
@@ -104,15 +101,21 @@ class BlogArticlesTable
                 BulkActionGroup::make([
                     BulkAction::make('publish')
                         ->label('Publish')
-                        ->action(fn (Collection $records) => $records->each->update([
-                            'status' => 'published',
-                        ]))
+                        ->icon('heroicon-o-cloud-arrow-up')
+                        ->action(function (Collection $records) {
+                            $count = $records->count();
+                            $records->each->update(['status' => BlogArticleStatus::Published->value,]);
+                            AdminNotifications::articlesPublished($count);
+                        })
                         ->requiresConfirmation(),
                     BulkAction::make('unpublish')
                         ->label('Move to draft')
-                        ->action(fn (Collection $records) => $records->each->update([
-                            'status' => 'draft',
-                        ]))
+                        ->icon('heroicon-o-archive-box-arrow-down')
+                        ->action(function (Collection $records) {
+                            $count = $records->count();
+                            $records->each->update(['status' => BlogArticleStatus::Draft->value,]);
+                            AdminNotifications::articlesMovedToDraft($count);
+                        })
                         ->requiresConfirmation(),
                     BulkAction::make('assignCategory')
                         ->label('Assign category')
@@ -128,11 +131,7 @@ class BlogArticlesTable
                             $records->each->update([
                                 'category_id' => (int) $data['category_id'],
                             ]);
-                            Notification::make()
-                                ->title('Category updated')
-                                ->body('Selected articles were assigned to the chosen category')
-                                ->success()
-                                ->send();
+                            AdminNotifications::categoryUpdated();
                         })
                         ->requiresConfirmation(),
                     DeleteBulkAction::make(),

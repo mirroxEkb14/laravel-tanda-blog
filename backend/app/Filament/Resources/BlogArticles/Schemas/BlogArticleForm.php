@@ -19,6 +19,7 @@ use App\Rules\EnumArray;
 use App\Enums\InstitutionType;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
+use App\Enums\BlogArticleStatus;
 
 /**
  * "->live" in 'Main':                    Updates state after user leaves the field, not on every keystroke,
@@ -94,26 +95,24 @@ class BlogArticleForm
                                     Select::make('status')
                                         ->required()
                                         ->options(function ($record) {
-                                            if ($record?->status === 'published') {
+                                            if ($record?->status === BlogArticleStatus::Published->value) {
                                                 return [
-                                                    'scheduled' => 'Scheduled',
-                                                    'published' => 'Published',
+                                                    BlogArticleStatus::Scheduled->value => BlogArticleStatus::Scheduled->label(),
+                                                    BlogArticleStatus::Published->value => BlogArticleStatus::Published->label(),
                                                 ];
                                             }
-                                            return [
-                                                'draft' => 'Draft',
-                                                'scheduled' => 'Scheduled',
-                                                'published' => 'Published',
-                                            ];
+                                            return BlogArticleStatus::options();
                                         })
-                                        ->default('draft')
+                                        ->default(BlogArticleStatus::Draft->value)
                                         ->live()
                                         ->helperText('If you set Published with a future Publish at, it will be treated as Scheduled automatically'),
                                     DateTimePicker::make('publish_at')
                                         ->label('Publish at')
                                         ->seconds(false)
-                                        ->required(fn ($get) => $get('status') === 'scheduled')
-                                        ->visible(fn ($get) => in_array($get('status'), ['scheduled', 'published']))
+                                        ->required(fn ($get) => $get('status') === BlogArticleStatus::Scheduled->value)
+                                        ->visible(fn ($get) => in_array(
+                                            $get('status'),
+                                            [BlogArticleStatus::Scheduled->value, BlogArticleStatus::Published->value]))
                                         ->helperText('Required for Scheduled status'),
                                     Select::make('author_id')
                                         ->label('Author')

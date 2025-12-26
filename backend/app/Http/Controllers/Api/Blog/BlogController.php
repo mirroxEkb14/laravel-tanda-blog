@@ -117,7 +117,7 @@ class BlogController extends Controller
      * Represents GET /api/blog/articles/{id}/related.
      * Returns up to 6 related published articles for a given article ID.
      * 
-     * Starts with same category as the strongest signal. Expands matches by shared tags / types (OR conditions).
+     * Starts with same category as the strongest signal. Expands matches by shared tags / types.
      * The logic returns (same category) OR (shares tags) OR (shares related_types).
      */
     public function related(int $id)

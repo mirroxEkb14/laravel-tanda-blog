@@ -97,3 +97,26 @@ GET http://localhost:8080/api/blog/articles/no-such-slug
 
 [![GitHub](https://img.shields.io/badge/GitHub-mirroxEkb14-181717?logo=github&logoColor=white)](https://github.com/mirroxEkb14)
 [![GitLab](https://img.shields.io/badge/GitLab-vance__7187-FCA121?logo=gitlab&logoColor=white)](https://gitlab.com/vance_7187)
+
+## TODO
+
+сделать:
+- загружать обложки cover_upload через S3 (не локальный public disk),
+- реализовать WYSIWYG для вставки/загрузки изображений (сейчас только базовый, RichEditor),
+- добавить preview статьи,
+- добавить related_articles[] внутри ответа статьи,
+- реализовать cover_image как полноценный URL (https://cdn/...),
+- реализовать UI/UX требования для фронта,
+- ограничить роли по admin/editor,
+- добавить XSS защиту (sanitization) (WYSIWYG),
+- реализовать блок Аналитики (фронт) (показатели views_count, related_articles, reading_time уже есть),
+- реализовать Future features
+
+- Enums for statutes,
+- central notification class, add notifications for each action (after Bulk actions etc.) (Notification::make),
+- in Forms "afterStateUpdated" as a separated func,
+- DeleteBulkAction in Categories and Tags are the same,
+- write separate rules for Observer,
+- update seeders: more complicated
+
+scope in publish commad $table, command Model -m, enum for Status, api to use Controller only once, paginated articles, articleBySlag – send the same query, blog in admin (dropdown, табы by categories or statuses), toggle btn featured, reorder for atricles, add ids,

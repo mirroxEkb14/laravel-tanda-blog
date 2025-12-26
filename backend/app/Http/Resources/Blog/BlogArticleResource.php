@@ -5,9 +5,6 @@ namespace App\Http\Resources\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Resource represents the canonical representation of a single article page
- */
 class BlogArticleResource extends JsonResource
 {
     /**
