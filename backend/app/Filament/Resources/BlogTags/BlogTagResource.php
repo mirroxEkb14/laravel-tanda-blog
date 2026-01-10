@@ -12,16 +12,19 @@ use App\Models\BlogTag;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class BlogTagResource extends Resource
 {
     protected static ?string $model = BlogTag::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static UnitEnum|string|null $navigationGroup = 'Library';
+    protected static ?string $navigationParentItem = 'Blog Articles';
+    protected static ?string $navigationLabel = 'Blog Tags';
+    protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
     {
