@@ -39,7 +39,6 @@ class BlogArticleSeeder extends Seeder
                 'publish_at' => now()->subDays(5),
                 'author_id' => $author->id,
                 'category_id' => $schoolCategory?->id,
-                'related_types' => ['school'],
             ]
         );
         $published->tags()->sync(array_slice($tags, 0, 3));
@@ -55,7 +54,6 @@ class BlogArticleSeeder extends Seeder
                 'publish_at' => Carbon::now()->addDays(3),
                 'author_id' => $author->id,
                 'category_id' => $examCategory?->id,
-                'related_types' => ['school', 'language_center'],
             ]
         );
         $scheduled->tags()->sync(array_slice($tags, 2, 3));

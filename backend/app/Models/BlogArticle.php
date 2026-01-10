@@ -24,8 +24,6 @@ class BlogArticle extends Model
         'reading_time',
         'views_count',
         'cover_image',
-        'related_types',
-        'related_institutions',
         'seo_title',
         'seo_description',
         'seo_keywords',
@@ -35,8 +33,6 @@ class BlogArticle extends Model
     // attribute casting (automatic type conversion from DB to PHP)
     protected $casts = [
         'publish_at' => 'datetime',
-        'related_types' => 'array',
-        'related_institutions' => 'array',
     ];
 
     public function category(): BelongsTo

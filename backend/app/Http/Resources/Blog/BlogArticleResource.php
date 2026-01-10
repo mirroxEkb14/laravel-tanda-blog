@@ -27,8 +27,6 @@ class BlogArticleResource extends JsonResource
             'category' => $this->whenLoaded('category'),
             'tags' => $this->whenLoaded('tags'),
             'author' => $this->whenLoaded('author'),
-            'related_institutions' => $this->related_institutions,
-            'related_types' => $this->related_types,
             'seo' => [
                 'title' => $this->seo_title,
                 'description' => $this->seo_description,

@@ -45,10 +45,6 @@ class BlogController extends Controller
             $query->whereHas('tags', fn ($q) => $q->where('slug', $tagSlug));
         }
 
-        if ($type = $request->string('type')->toString()) {
-            $query->whereJsonContains('related_types', $type);
-        }
-
         if ($search = $request->string('search')->toString()) {
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
@@ -115,29 +111,20 @@ class BlogController extends Controller
 
     /**
      * Represents GET /api/blog/articles/{id}/related.
-     * Returns up to 6 related published articles for a given article ID.
-     * 
-     * Starts with same category as the strongest signal. Expands matches by shared tags / types.
-     * The logic returns (same category) OR (shares tags) OR (shares related_types).
+     * Returns up to 6 related published articles for a given article ID: (same category) OR (shares tags).
      */
     public function related(int $id)
     {
         $article = BlogArticle::query()->with(['tags:id', 'category:id'])->findOrFail($id);
 
         $tagIds = $article->tags->pluck('id')->all();
-        $types = $article->related_types ?? [];
 
         $query = BlogArticle::query()
             ->published()
             ->where('id', '!=', $article->id)
             ->with(['category:id,name,slug', 'tags:id,name,slug'])
             ->when($article->category_id, fn ($q) => $q->where('category_id', $article->category_id))
-            ->when(!empty($tagIds), fn ($q) => $q->orWhereHas('tags', fn ($t) => $t->whereIn('blog_tags.id', $tagIds)))
-            ->when(!empty($types), fn ($q) => $q->orWhere(function ($qq) use ($types) {
-                foreach ($types as $type) {
-                    $qq->orWhereJsonContains('related_types', $type);
-                }
-            }));
+            ->when(!empty($tagIds), fn ($q) => $q->orWhereHas('tags', fn ($t) => $t->whereIn('blog_tags.id', $tagIds)));
 
         $items = $query
             ->orderByDesc('publish_at')
