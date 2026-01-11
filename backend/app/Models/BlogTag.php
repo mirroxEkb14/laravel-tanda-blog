@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class BlogTag extends Model
 {
-    protected $table = 'blog_tags';
-
     protected $fillable = [
         'name',
         'slug',

@@ -9,8 +9,6 @@ use App\Enums\BlogArticleStatus;
 
 class BlogArticle extends Model
 {
-    protected $table = 'blog_articles';
-
     // mass-assignable attributes (passed in one array)
     protected $fillable = [
         'category_id',

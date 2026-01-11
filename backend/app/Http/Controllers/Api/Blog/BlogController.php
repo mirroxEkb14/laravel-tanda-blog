@@ -75,7 +75,7 @@ class BlogController extends Controller
             ->firstOrFail();
 
         $article->increment('views_count');
-        return new BlogArticleResource($article->load(['category', 'tags', 'author']));
+        return new BlogArticleResource($article);
     }
 
     /**
