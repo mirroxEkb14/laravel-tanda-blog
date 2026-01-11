@@ -21,10 +21,14 @@ class BlogTagResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static UnitEnum|string|null $navigationGroup = 'Library';
-    protected static ?string $navigationParentItem = 'Blog Articles';
-    protected static ?string $navigationLabel = 'Blog Tags';
+    protected static UnitEnum|string|null $navigationGroup = 'Библиотека';
+    protected static ?string $navigationParentItem = 'Статьи блога';
+    protected static ?string $navigationLabel = 'Теги блога';
     protected static ?int $navigationSort = 3;
+
+    protected static ?string $modelLabel = 'Тег';
+    protected static ?string $pluralModelLabel = 'Теги блога';
+
 
     public static function form(Schema $schema): Schema
     {

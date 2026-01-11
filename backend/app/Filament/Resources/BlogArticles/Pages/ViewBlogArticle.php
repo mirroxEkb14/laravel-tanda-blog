@@ -14,8 +14,8 @@ class ViewBlogArticle extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
-            DeleteAction::make(),
+            EditAction::make()->label('Изменить'),
+            DeleteAction::make()->label('Удалить'),
         ];
     }
 }

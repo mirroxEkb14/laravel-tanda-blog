@@ -21,10 +21,14 @@ class BlogCategoryResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static UnitEnum|string|null $navigationGroup = 'Library';
-    protected static ?string $navigationParentItem = 'Blog Articles';
-    protected static ?string $navigationLabel = 'Blog Categories';
+    protected static UnitEnum|string|null $navigationGroup = 'Библиотека';
+    protected static ?string $navigationParentItem = 'Статьи блога';
+    protected static ?string $navigationLabel = 'Категории блога';
     protected static ?int $navigationSort = 2;
+
+    protected static ?string $modelLabel = 'Категория';
+    protected static ?string $pluralModelLabel = 'Категории блога';
+
 
     public static function form(Schema $schema): Schema
     {

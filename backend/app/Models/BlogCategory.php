@@ -33,6 +33,6 @@ class BlogCategory extends Model
 
     public function deleteBlockReason(): string
     {
-        return 'Cannot delete category assigned to articles';
+        return 'Нельзя удалить категорию, используемую в статьях блога';
     }
 }

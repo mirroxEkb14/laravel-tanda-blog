@@ -24,9 +24,12 @@ class BlogArticleResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static UnitEnum|string|null $navigationGroup = 'Library';
-    protected static ?string $navigationLabel = 'Blog Articles';
+    protected static UnitEnum|string|null $navigationGroup = 'Библиотека';
+    protected static ?string $navigationLabel = 'Статьи блога';
     protected static ?int $navigationSort = 1;
+
+    protected static ?string $modelLabel = 'Статья';
+    protected static ?string $pluralModelLabel = 'Статьи блога';
 
     public static function form(Schema $schema): Schema
     {

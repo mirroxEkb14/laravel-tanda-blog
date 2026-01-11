@@ -37,46 +37,50 @@ class BlogArticlesTable
                     ->label('#')
                     ->sortable(),
                 ImageColumn::make('cover_image')
-                    ->label('Cover')
+                    ->label('Обложка')
                     ->square()
                     ->toggleable(),
                 TextColumn::make('title')
+                    ->label('Заголовок')
                     ->searchable()
                     ->sortable()
                     ->limit(60),
                 TextColumn::make('category.name')
-                    ->label('Category')
+                    ->label('Категория')
                     ->sortable(),
                 TextColumn::make('status')
+                    ->label('Статус')
                     ->badge()
                     ->sortable(),
                 ToggleColumn::make('featured')
-                    ->label('Featured')
+                    ->label('Избранное')
                     ->sortable(),
                 TextColumn::make('author.name')
-                    ->label('Author')
+                    ->label('Автор')
                     ->sortable(),
                 TextColumn::make('publish_at')
-                    ->label('Publish at')
+                    ->label('Дата публикации')
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('views_count')
-                    ->label('Views')
+                    ->label('Просмотры')
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('category_id')
-                    ->label('Category')
+                    ->label('Категория')
                     ->relationship('category', 'name'),
                 SelectFilter::make('status')
+                    ->label('Статус')
                     ->options(BlogArticleStatus::options()),
                 SelectFilter::make('author_id')
-                    ->label('Author')
+                    ->label('Автор')
                     ->relationship('author', 'name'),
                 Filter::make('publish_at')
+                    ->label('Дата публикации')
                     ->form([
-                        DatePicker::make('from')->label('Published from'),
-                        DatePicker::make('until')->label('Published until'),
+                        DatePicker::make('from')->label('Опубликовано от'),
+                        DatePicker::make('until')->label('Опубликовано до'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -92,24 +96,24 @@ class BlogArticlesTable
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
                         if (! empty($data['from'])) {
-                            $indicators[] = 'Published from: ' . $data['from'];
+                            $indicators[] = 'От: ' . $data['from'];
                         }
                         if (! empty($data['until'])) {
-                            $indicators[] = 'Published until: ' . $data['until'];
+                            $indicators[] = 'До: ' . $data['until'];
                         }
                         return $indicators;
                     }),
             ])
             ->defaultSort('publish_at', 'desc')
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make()->requiresConfirmation(),
-                DeleteAction::make()->requiresConfirmation(),
+                ViewAction::make()->label('Просмотр'),
+                EditAction::make()->requiresConfirmation()->label('Изменить'),
+                DeleteAction::make()->requiresConfirmation()->label('Удалить'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('publish')
-                        ->label('Publish')
+                        ->label('Опубликовать')
                         ->icon('heroicon-o-cloud-arrow-up')
                         ->action(function (Collection $records) {
                             $count = $records->count();
@@ -118,7 +122,7 @@ class BlogArticlesTable
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('unpublish')
-                        ->label('Move to draft')
+                        ->label('Перевести в черновик')
                         ->icon('heroicon-o-archive-box-arrow-down')
                         ->action(function (Collection $records) {
                             $count = $records->count();
@@ -127,7 +131,7 @@ class BlogArticlesTable
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('assignCategory')
-                        ->label('Assign category')
+                        ->label('Присвоить категорию')
                         ->icon('heroicon-o-rectangle-stack')
                         ->form([
                             Select::make('category_id')
@@ -144,7 +148,7 @@ class BlogArticlesTable
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('markFeatured')
-                        ->label('Mark as featured')
+                        ->label('Пометить как избранное')
                         ->icon('heroicon-o-star')
                         ->action(function (Collection $records) {
                             $records->each->update(['featured' => true]);
@@ -152,14 +156,14 @@ class BlogArticlesTable
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('unmarkFeatured')
-                        ->label('Remove featured')
+                        ->label('Удалить из избранного')
                         ->icon('heroicon-o-star')
                         ->action(function (Collection $records) {
                             $records->each->update(['featured' => false]);
                             AdminNotifications::success('Updated', "{$records->count()} article(s) removed from featured");
                         })
                         ->requiresConfirmation(),
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()->label('Удалить выделенные'),
                 ]),
             ]);
     }

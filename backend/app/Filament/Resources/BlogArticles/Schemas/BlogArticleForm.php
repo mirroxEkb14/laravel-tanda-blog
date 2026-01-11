@@ -41,24 +41,27 @@ class BlogArticleForm
                         ->columns(1)
                         ->columnSpan(1)
                         ->schema([
-                            Section::make('Main')
+                            Section::make('Главное')
                                 ->columns(2)
                                 ->schema([
                                     TextInput::make('title')
+                                        ->label('Заголовок')
                                         ->required()
                                         ->maxLength(255)
                                         ->live(onBlur: true)
                                         ->afterStateUpdated(ResourceHelper::autoSlug('slug')),
                                     TextInput::make('slug')
+                                        ->label('Slug')
                                         ->required()
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true),
                                     Textarea::make('excerpt')
+                                        ->label('Выдержка')
                                         ->rows(3)
                                         ->columnSpanFull()
-                                        ->helperText('Short description for listings'),
+                                        ->helperText('Короткое описание статьи для списков и превью'),
                                     FileUpload::make('cover_image')
-                                        ->label('Cover image (16:9)')
+                                        ->label('Обложка')
                                         ->image()
                                         ->imageEditor()
                                         ->directory('blog/covers')
@@ -70,15 +73,20 @@ class BlogArticleForm
                             Section::make('SEO')
                                 ->collapsed()
                                 ->schema([
-                                    TextInput::make('seo_title')->maxLength(255),
+                                    TextInput::make('seo_title')
+                                        ->label('SEO заголовок')
+                                        ->maxLength(255),
                                     Textarea::make('seo_description')
+                                        ->label('SEO описание')
                                         ->rows(3)
                                         ->maxLength(255)
                                         ->columnSpanFull(),
                                     TextInput::make('seo_keywords')
+                                        ->label('SEO ключевые слова')
                                         ->maxLength(255)
-                                        ->helperText('Comma-separated keywords'),
+                                        ->helperText('Ключевые слова через запятую'),
                                     TextInput::make('canonical_url')
+                                        ->label('Canonical URL-ссылка')
                                         ->maxLength(2048)
                                         ->url(),
                                 ]),
@@ -87,24 +95,25 @@ class BlogArticleForm
                         ->columns(1)
                         ->columnSpan(1)
                         ->schema([
-                            Section::make('Category & Tags')
+                            Section::make('Категории и теги')
                                 ->columns(2)
                                 ->schema([
                                     Select::make('category_id')
-                                        ->label('Category')
+                                        ->label('Категория')
                                         ->required()
                                         ->searchable()
                                         ->preload()
                                         ->relationship('category', 'name'),
                                     MultiSelect::make('tags')
-                                        ->label('Tags')
+                                        ->label('Теги')
                                         ->relationship('tags', 'name')
                                         ->searchable()
                                         ->preload(),
                                 ]),
-                            Section::make('Publication')
+                            Section::make('Публикация')
                                 ->schema([
                                     Select::make('status')
+                                        ->label('Статус')
                                         ->required()
                                         ->options(function ($record) {
                                             if ($record?->status === BlogArticleStatus::Published->value) {
@@ -117,40 +126,41 @@ class BlogArticleForm
                                         })
                                         ->default(BlogArticleStatus::Draft->value)
                                         ->live()
-                                        ->helperText('If you set Published with a future Publish at, it will be treated as Scheduled automatically'),
+                                        ->helperText('Если статья уже опубликована, статус "Черновик" будет недоступен'),
                                     DateTimePicker::make('publish_at')
-                                        ->label('Publish at')
+                                        ->label('Дата публикации')
                                         ->seconds(false)
                                         ->required(fn ($get) => $get('status') === BlogArticleStatus::Scheduled->value)
                                         ->visible(fn ($get) => in_array(
                                             $get('status'),
                                             [BlogArticleStatus::Scheduled->value, BlogArticleStatus::Published->value]))
-                                        ->helperText('Required for Scheduled status'),
+                                        ->helperText('Необходима при выборе статуса "Запланировано"'),
                                     Toggle::make('featured')
-                                        ->label('Featured')
-                                        ->helperText('Mark this article as featured for promoted lists')
+                                        ->label('Избранное')
+                                        ->helperText('Отобразить статью в разделе избранного')
                                         ->default(false),
                                     Select::make('author_id')
-                                        ->label('Author')
+                                        ->label('Автор')
                                         ->required()
                                         ->relationship('author', 'name')
                                         ->searchable()
                                         ->preload(),
                                     TextInput::make('reading_time')
+                                        ->label('Время чтения')
                                         ->numeric()
                                         ->disabled()
                                         ->dehydrated(false)
-                                        ->helperText('Auto-calculated (minutes)'),
+                                        ->helperText('Авто-расчёт на основе контента статьи'),
                                     Hidden::make('views_count')->default(0),
                                 ]),
                         ]),
-                    Section::make('Content')
+                    Section::make('Содержание')
                         ->columnSpan(2)
                         ->schema([
                             RichEditor::make('content')
-                                ->label('Content (HTML)')
+                                ->label('Контент (HTML)')
                                 ->columnSpanFull()
-                                ->helperText('Store as HTML. Reading time will be calculated automatically'),
+                                ->helperText('Основной контент статьи в формате HTML'),
                         ]),
                 ])
         ]);

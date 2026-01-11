@@ -20,12 +20,14 @@ class EditBlogArticle extends EditRecord
     {
         return [
             Action::make('moveToDraft')
-                ->label('Move to draft')
+                ->label('Перенести в черновик')
                 ->color('warning')
                 ->visible(fn () => $this->record->status === BlogArticleStatus::Published->value)
                 ->requiresConfirmation()
-                ->modalHeading('Move article to draft?')
-                ->modalDescription('This will unpublish the article and remove it from the public API')
+                ->modalHeading('Перенести статью в черновик?')
+                ->modalDescription('Это снимет статью с публикации и исключит её из API')
+                ->modalSubmitActionLabel('Подтвердить')
+                ->modalCancelActionLabel('Отмена')
                 ->action(function () {
                     $this->record->update([
                         'status' => BlogArticleStatus::Draft->value,

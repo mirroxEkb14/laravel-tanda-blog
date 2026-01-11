@@ -11,9 +11,9 @@ enum BlogArticleStatus: string
     public function label(): string
     {
         return match ($this) {
-            self::Draft => 'Draft',
-            self::Scheduled => 'Scheduled',
-            self::Published => 'Published',
+            self::Draft => 'Черновик',
+            self::Scheduled => 'Запланировано',
+            self::Published => 'Опубликовано',
         };
     }
 

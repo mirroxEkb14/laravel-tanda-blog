@@ -31,16 +31,19 @@ class BlogCategoriesTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
+                    ->label('Название')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('slug')
+                    ->label('Slug')
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('articles_count')
+                    ->label('Статьи')
                     ->counts('articles')
-                    ->label('Articles')
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label('Создано')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -50,9 +53,10 @@ class BlogCategoriesTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()->label('Просмотр'),
+                EditAction::make()->label('Изменить'),
                 DeleteAction::make()
+                    ->label('Удалить')
                     ->disabled(fn ($record) => $record->isUsed())
                     ->tooltip(fn ($record) => $record->isUsed() ? $record->deleteBlockReason() : null),
             ])

@@ -35,6 +35,6 @@ class BlogTag extends Model
 
     public function deleteBlockReason(): string
     {
-        return 'Cannot delete tag assigned to articles';
+        return 'Нельзя удалить тег, используемый в статьях блога';
     }
 }

@@ -26,46 +26,46 @@ class AdminNotifications
 
     public static function articleMovedToDraft(): void
     {
-        self::success('Article moved to draft');
+        self::success('Статья переведена в черновик');
     }
 
     public static function categoryUpdated(): void
     {
         self::success(
-            'Category updated',
-            'Selected articles were assigned to the chosen category',
+            'Категория обновлена',
+            'Выбранная категория была успешно обновлена',
         );
     }
 
     public static function cannotDeleteCategories(int $usedCount): void
     {
         self::danger(
-            'Cannot delete selected categories',
-            "{$usedCount} of the selected category(ies) are assigned to articles",
+            'Невозможно удалить выбранные категории',
+            "{$usedCount} выбранная(ых) категория(ии) назначена(ы) статьям",
         );
     }
 
     public static function cannotDeleteTags(int $usedCount): void
     {
         self::danger(
-            'Cannot delete selected tags',
-            "{$usedCount} of the selected tag(s) are assigned to articles",
+            'Невозможно удалить выбранные теги',
+            "{$usedCount} выбранный(ых) тег(ов) назначен(ы) статьям",
         );
     }
 
     public static function articlesPublished(int $count): void
     {
         self::success(
-            'Articles published',
-            "{$count} article(s) were set to Published",
+            'Статьи опубликованы',
+            "{$count} статья(ей) была(и) успешно опубликована(ы)",
         );
     }
 
     public static function articlesMovedToDraft(int $count): void
     {
         self::success(
-            'Articles moved to draft',
-            "{$count} article(s) were set to Draft",
+            'Статьи переведены в черновик',
+            "{$count} статья(ей) была(и) успешно переведена(ы) в черновик",
         );
     }
 }

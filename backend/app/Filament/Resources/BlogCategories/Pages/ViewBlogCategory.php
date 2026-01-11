@@ -17,8 +17,9 @@ class ViewBlogCategory extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make(),
+            EditAction::make()->label('Изменить'),
             DeleteAction::make()
+                ->label('Удалить')
                 ->disabled(fn () => $this->record->isUsed())
                 ->tooltip(fn () => $this->record->isUsed() ? $this->record->deleteBlockReason() : null)
                 ->requiresConfirmation(),
