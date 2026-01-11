@@ -32,6 +32,9 @@ class BlogArticlesTable
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->label('#')
+                    ->sortable(),
                 ImageColumn::make('cover_image')
                     ->label('Cover')
                     ->square()
