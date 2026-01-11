@@ -97,3 +97,26 @@ GET http://localhost:8080/api/blog/articles/no-such-slug
 
 [![GitHub](https://img.shields.io/badge/GitHub-mirroxEkb14-181717?logo=github&logoColor=white)](https://github.com/mirroxEkb14)
 [![GitLab](https://img.shields.io/badge/GitLab-vance__7187-FCA121?logo=gitlab&logoColor=white)](https://gitlab.com/vance_7187)
+
+## TODO
+
+сделать:
+- загружать обложки cover_upload через S3 (не локальный public disk),
+- реализовать WYSIWYG для вставки/загрузки изображений (сейчас только базовый, RichEditor),
+- добавить preview статьи,
+- добавить related_articles[] внутри ответа статьи,
+- реализовать cover_image как полноценный URL (https://cdn/...),
+- реализовать UI/UX требования для фронта,
+- ограничить роли по admin/editor,
+- добавить XSS защиту (sanitization) (WYSIWYG),
+- реализовать блок Аналитики (фронт) (показатели views_count, related_articles, reading_time уже есть),
+- реализовать Future features
+- update seeders: more complicated
+
+? api to use controller only once, articlebyslag – send the same query, reorder for atricles
+
+'http://localhost:8080/api/blog/articles/1/related' not working, 'http://localhost:8080/api/blog/articles?category=schools' returns only with ID 1 (but ID 3 also Schools),
+
+git push -u origin feature/blog-admin
+
+reorder by drag-&-drop, liked articles, translate into Rus

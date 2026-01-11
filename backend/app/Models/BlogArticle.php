@@ -11,6 +11,7 @@ class BlogArticle extends Model
 {
     // mass-assignable attributes (passed in one array)
     protected $fillable = [
+        'sort_order',
         'category_id',
         'author_id',
         'title',
@@ -57,7 +58,7 @@ class BlogArticle extends Model
 
     /**
      * Gets published articles (used in Controller for API).
-     * 
+     *
      * If 'published' has 'published_at' as null, then visible.
      * If 'published' has 'published_at' in the past, then visible.
      * If 'published' has 'published_at' in the future, then not visible.
