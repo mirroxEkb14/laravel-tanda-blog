@@ -21,7 +21,6 @@ class BlogController extends Controller
      * Base query: only publicly visible articles.
      * Filter by category slug ('?category=schools').
      * Filter by tag slug ('?tag=education').
-     * Filter by institution type context ('?type=school').
      * Basic text search ('?search=private').
      * Safe 'per_page' bounds to prevent heavy queries (like 'per_page=10000' that'd kill DB) (?page=1&per_page=12).
      * 
@@ -57,15 +56,7 @@ class BlogController extends Controller
             ->orderByDesc('publish_at')
             ->paginate(perPage: $perPage);
 
-        return response()->json([
-            'data' => BlogArticleListResource::collection($articles->items()),
-            'meta' => [
-                'page' => $articles->currentPage(),
-                'per_page' => $articles->perPage(),
-                'total' => $articles->total(),
-                'last_page' => $articles->lastPage(),
-            ],
-        ]);
+        return $this->paginatedResponse($articles, BlogArticleListResource::class);
     }
 
     /**
@@ -123,15 +114,31 @@ class BlogController extends Controller
             ->published()
             ->where('id', '!=', $article->id)
             ->with(['category:id,name,slug', 'tags:id,name,slug'])
-            ->when($article->category_id, fn ($q) => $q->where('category_id', $article->category_id))
-            ->when(!empty($tagIds), fn ($q) => $q->orWhereHas('tags', fn ($t) => $t->whereIn('blog_tags.id', $tagIds)));
+            ->where(function ($q) use ($article, $tagIds) {
+                $q->when($article->category_id, fn ($qq) => $qq->where('category_id', $article->category_id))
+                ->when(! empty($tagIds), fn ($qq) => $qq->orWhereHas('tags', fn ($t) => $t->whereIn('blog_tags.id', $tagIds)));
+            });
 
-        $items = $query
+        $articles = $query
             ->orderByDesc('publish_at')
-            ->orderByDesc('views_count')
-            ->limit(6)
-            ->get();
+            ->paginate(perPage: 6);
 
-        return BlogArticleListResource::collection($items);
+        return $this->paginatedResponse($articles, BlogArticleListResource::class);
+    }
+
+    /**
+     * Formats a paginated response for 'articles' and 'related'
+     */
+    protected function paginatedResponse($paginator, $resource)
+    {
+        return response()->json([
+            'data' => $resource::collection($paginator->items()),
+            'meta' => [
+                'page' => $paginator->currentPage(),
+                'per_page' => $paginator->perPage(),
+                'total' => $paginator->total(),
+                'last_page' => $paginator->lastPage(),
+            ],
+        ]);
     }
 }

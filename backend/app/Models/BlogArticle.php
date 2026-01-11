@@ -73,4 +73,15 @@ class BlogArticle extends Model
                 $q->whereNull('publish_at')->orWhere('publish_at', '<=', now());
             });
     }
+
+    /**
+     * Gets articles that are scheduled to be published (used in Console Publish Command)
+     */
+    public function scopeReadyToPublish($query)
+    {
+        return $query
+            ->where('status', BlogArticleStatus::Scheduled->value)
+            ->whereNotNull('publish_at')
+            ->where('publish_at', '<=', now());
+    }
 }

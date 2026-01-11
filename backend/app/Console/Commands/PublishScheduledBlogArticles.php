@@ -17,10 +17,7 @@ class PublishScheduledBlogArticles extends Command
 
     public function handle()
     {
-        $count = BlogArticle::query()
-            ->where('status', BlogArticleStatus::Scheduled->value)
-            ->whereNotNull('publish_at')
-            ->where('publish_at', '<=', now())
+        $count = BlogArticle::readyToPublish()
             ->update(['status' => BlogArticleStatus::Published->value]);
 
         $this->info("Published {$count} scheduled article(s)");
