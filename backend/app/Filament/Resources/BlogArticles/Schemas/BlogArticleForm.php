@@ -13,6 +13,7 @@ use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Str;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
@@ -125,6 +126,10 @@ class BlogArticleForm
                                             $get('status'),
                                             [BlogArticleStatus::Scheduled->value, BlogArticleStatus::Published->value]))
                                         ->helperText('Required for Scheduled status'),
+                                    Toggle::make('featured')
+                                        ->label('Featured')
+                                        ->helperText('Mark this article as featured for promoted lists')
+                                        ->default(false),
                                     Select::make('author_id')
                                         ->label('Author')
                                         ->required()

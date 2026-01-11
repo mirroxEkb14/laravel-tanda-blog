@@ -20,6 +20,7 @@ class BlogArticle extends Model
         'excerpt',
         'content',
         'status',
+        'featured',
         'publish_at',
         'reading_time',
         'views_count',
@@ -33,6 +34,7 @@ class BlogArticle extends Model
     // attribute casting (automatic type conversion from DB to PHP)
     protected $casts = [
         'publish_at' => 'datetime',
+        'featured' => 'boolean',
     ];
 
     public function category(): BelongsTo

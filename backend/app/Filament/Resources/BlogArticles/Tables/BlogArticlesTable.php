@@ -15,6 +15,8 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\BlogCategory;
@@ -43,6 +45,9 @@ class BlogArticlesTable
                     ->sortable(),
                 TextColumn::make('status')
                     ->badge()
+                    ->sortable(),
+                ToggleColumn::make('featured')
+                    ->label('Featured')
                     ->sortable(),
                 TextColumn::make('author.name')
                     ->label('Author')
@@ -132,6 +137,22 @@ class BlogArticlesTable
                                 'category_id' => (int) $data['category_id'],
                             ]);
                             AdminNotifications::categoryUpdated();
+                        })
+                        ->requiresConfirmation(),
+                    BulkAction::make('markFeatured')
+                        ->label('Mark as featured')
+                        ->icon('heroicon-o-star')
+                        ->action(function (Collection $records) {
+                            $records->each->update(['featured' => true]);
+                            AdminNotifications::success('Updated', "{$records->count()} article(s) marked as featured");
+                        })
+                        ->requiresConfirmation(),
+                    BulkAction::make('unmarkFeatured')
+                        ->label('Remove featured')
+                        ->icon('heroicon-o-star')
+                        ->action(function (Collection $records) {
+                            $records->each->update(['featured' => false]);
+                            AdminNotifications::success('Updated', "{$records->count()} article(s) removed from featured");
                         })
                         ->requiresConfirmation(),
                     DeleteBulkAction::make(),

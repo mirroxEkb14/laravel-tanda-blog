@@ -36,6 +36,7 @@ class BlogArticleSeeder extends Seeder
                 'excerpt' => 'A practical guide for parents choosing a private school.',
                 'content' => '<p>Choosing a private school is an important decision...</p>',
                 'status' => 'published',
+                'featured' => true,
                 'publish_at' => now()->subDays(5),
                 'author_id' => $author->id,
                 'category_id' => $schoolCategory?->id,
@@ -51,6 +52,7 @@ class BlogArticleSeeder extends Seeder
                 'excerpt' => 'What to focus on when preparing for IELTS.',
                 'content' => '<p>IELTS preparation requires a structured approach...</p>',
                 'status' => 'scheduled',
+                'featured' => false,
                 'publish_at' => Carbon::now()->addDays(3),
                 'author_id' => $author->id,
                 'category_id' => $examCategory?->id,
@@ -66,6 +68,7 @@ class BlogArticleSeeder extends Seeder
                 'excerpt' => 'Avoid these common pitfalls.',
                 'content' => '<p>Many parents focus only on rankings...</p>',
                 'status' => 'draft',
+                'featured' => false,
                 'author_id' => $author->id,
                 'category_id' => $schoolCategory?->id,
             ]
