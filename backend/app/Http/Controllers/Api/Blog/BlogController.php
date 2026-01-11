@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Blog;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\BlogArticle;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
@@ -11,19 +10,20 @@ use App\Http\Resources\Blog\BlogArticleListResource;
 use App\Http\Resources\Blog\BlogArticleResource;
 use App\Http\Resources\Blog\BlogCategoryResource;
 use App\Http\Resources\Blog\BlogTagResource;
+use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
     /**
      * Represents GET /api/blog/articles.
      * Returns a paginated list of published articles with optional filters.
-     * 
+     *
      * Base query: only publicly visible articles.
      * Filter by category slug ('?category=schools').
      * Filter by tag slug ('?tag=education').
      * Basic text search ('?search=private').
      * Safe 'per_page' bounds to prevent heavy queries (like 'per_page=10000' that'd kill DB) (?page=1&per_page=12).
-     * 
+     *
      * Paginated list returns records in pages, each page containing a fixed number of items (not all records at once).
      * Basically, instead of “get all 10 000 articles”, this returns “get page 1, with 12 articles per page”,
      *      “now get page 2, again 12 articles” etc.
@@ -62,7 +62,7 @@ class BlogController extends Controller
     /**
      * Represents GET /api/blog/articles/{slug}.
      * Returns one published article by slug.
-     * 
+     *
      * Increments 'views_count' on open to track popularity.
      * "->firstOrFail" ensures 404 if not found or not published.
      */

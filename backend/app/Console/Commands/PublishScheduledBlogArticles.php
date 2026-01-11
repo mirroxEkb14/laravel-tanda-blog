@@ -15,7 +15,7 @@ class PublishScheduledBlogArticles extends Command
     protected $signature = 'blog:publish-scheduled';
     protected $description = 'Publish scheduled blog articles whose publish_at time has arrived';
 
-    public function handle()
+    public function handle(): int
     {
         $count = BlogArticle::readyToPublish()
             ->update(['status' => BlogArticleStatus::Published->value]);
