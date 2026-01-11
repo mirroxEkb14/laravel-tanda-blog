@@ -51,7 +51,7 @@ class BlogController extends Controller
             });
         }
 
-        $perPage = min(50, max(1, (int) $request->get('per_page', 12)));
+        $perPage = min(30, max(1, (int) $request->get('per_page', 9)));
         $articles = $query
             ->orderByDesc('publish_at')
             ->paginate(perPage: $perPage);
@@ -124,6 +124,26 @@ class BlogController extends Controller
             ->paginate(perPage: 6);
 
         return $this->paginatedResponse($articles, BlogArticleListResource::class);
+    }
+
+    /**
+     * Represents GET /api/blog/articles/featured.
+     * Returns a list of featured published articles, limited by 'limit' query param (default 8, max 20).
+     */
+    public function featured(Request $request)
+    {
+        $limit = min(20, max(1, (int) $request->get('limit', 8)));
+
+        $items = BlogArticle::query()
+            ->published()
+            ->where('featured', true)
+            ->with(['category:id,name,slug', 'tags:id,name,slug', 'author:id,name'])
+            ->orderByDesc('publish_at')
+            ->orderByDesc('views_count')
+            ->limit($limit)
+            ->get();
+
+        return BlogArticleListResource::collection($items);
     }
 
     /**
