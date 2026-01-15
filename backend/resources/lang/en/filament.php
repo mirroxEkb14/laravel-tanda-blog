@@ -28,6 +28,19 @@ return [
         'save' => 'Save',
         'saved' => 'Settings saved',
     ],
+    'notifications' => [
+        'article_moved_to_draft' => 'Article moved to draft',
+        'category_updated_title' => 'Category updated',
+        'category_updated_body' => 'The selected category was updated successfully',
+        'cannot_delete_categories_title' => 'Unable to delete selected categories',
+        'cannot_delete_categories_body' => ':count selected category(ies) are assigned to articles',
+        'cannot_delete_tags_title' => 'Unable to delete selected tags',
+        'cannot_delete_tags_body' => ':count selected tag(s) are assigned to articles',
+        'articles_published_title' => 'Articles published',
+        'articles_published_body' => ':count article(s) were published successfully',
+        'articles_moved_to_draft_title' => 'Articles moved to draft',
+        'articles_moved_to_draft_body' => ':count article(s) were moved to draft successfully',
+    ],
     'blog' => [
         'navigation' => [
             'library' => 'Library',

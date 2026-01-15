@@ -28,6 +28,19 @@ return [
         'save' => 'Сохранить',
         'saved' => 'Настройки сохранены',
     ],
+    'notifications' => [
+        'article_moved_to_draft' => 'Статья переведена в черновик',
+        'category_updated_title' => 'Категория обновлена',
+        'category_updated_body' => 'Выбранная категория была успешно обновлена',
+        'cannot_delete_categories_title' => 'Невозможно удалить выбранные категории',
+        'cannot_delete_categories_body' => ':count выбранная(ых) категория(ии) назначена(ы) статьям',
+        'cannot_delete_tags_title' => 'Невозможно удалить выбранные теги',
+        'cannot_delete_tags_body' => ':count выбранный(ых) тег(ов) назначен(ы) статьям',
+        'articles_published_title' => 'Статьи опубликованы',
+        'articles_published_body' => ':count статья(ей) была(и) успешно опубликована(ы)',
+        'articles_moved_to_draft_title' => 'Статьи переведены в черновик',
+        'articles_moved_to_draft_body' => ':count статья(ей) была(и) успешно переведена(ы) в черновик',
+    ],
     'blog' => [
         'navigation' => [
             'library' => 'Библиотека',
