@@ -16,44 +16,44 @@ class BlogCategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Советы',
-                'description' => 'Практические рекомендации для родителей и учеников.',
+                'name' => 'Tips',
+                'description' => 'Practical guidance for parents and students.',
             ],
             [
-                'name' => 'Родителям',
-                'description' => 'Материалы для семей о выборе школы и учебном процессе.',
+                'name' => 'For Parents',
+                'description' => 'Resources for families about school choice and learning.',
             ],
             [
-                'name' => 'Частные школы',
-                'description' => 'Обзоры и критерии выбора частных школ.',
+                'name' => 'Private Schools',
+                'description' => 'Reviews and criteria for choosing private schools.',
             ],
             [
-                'name' => 'Поступление',
-                'description' => 'Этапы и документы для поступления в учебные заведения.',
+                'name' => 'Admissions',
+                'description' => 'Steps and documents needed for enrollment.',
             ],
             [
-                'name' => 'Подготовка к экзаменам',
-                'description' => 'Стратегии подготовки к тестам и олимпиадам.',
+                'name' => 'Exam Preparation',
+                'description' => 'Strategies for tests and competitions.',
             ],
             [
-                'name' => 'Дошкольное образование',
-                'description' => 'Как выбрать детский сад и подготовить ребенка.',
+                'name' => 'Preschool Education',
+                'description' => 'How to choose a preschool and prepare your child.',
             ],
             [
-                'name' => 'Международное обучение',
-                'description' => 'Советы по программам за рубежом и адаптации.',
+                'name' => 'International Education',
+                'description' => 'Tips on studying abroad programs and adaptation.',
             ],
             [
-                'name' => 'Внеклассные активности',
-                'description' => 'Кружки, секции и развитие навыков вне школы.',
+                'name' => 'Extracurricular Activities',
+                'description' => 'Clubs, sports, and skill-building beyond school.',
             ],
             [
-                'name' => 'Психология и мотивация',
-                'description' => 'Поддержка ребенка и формирование учебной мотивации.',
+                'name' => 'Psychology and Motivation',
+                'description' => 'Supporting students and building motivation.',
             ],
             [
-                'name' => 'Технологии в образовании',
-                'description' => 'Цифровые инструменты и онлайн-обучение.',
+                'name' => 'Education Technology',
+                'description' => 'Digital tools and online learning.',
             ],
         ];
 

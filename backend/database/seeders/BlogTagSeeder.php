@@ -15,21 +15,21 @@ class BlogTagSeeder extends Seeder
     public function run(): void
     {
         $tags = [
-            'Рекомендации',
-            'Выбор школы',
-            'Психология',
-            'Подготовка',
-            'Экзамены',
-            'Мотивация',
-            'Внеурочка',
-            'Учебный план',
-            'Цифровые сервисы',
-            'Стипендии',
-            'Переезд',
-            'Инклюзия',
-            'Питание',
-            'Безопасность',
-            'Родительское сообщество',
+            'Recommendations',
+            'School Choice',
+            'Psychology',
+            'Preparation',
+            'Exams',
+            'Motivation',
+            'Extracurriculars',
+            'Curriculum',
+            'Digital Services',
+            'Scholarships',
+            'Relocation',
+            'Inclusion',
+            'Nutrition',
+            'Safety',
+            'Parent Community',
         ];
 
         foreach ($tags as $name) {
