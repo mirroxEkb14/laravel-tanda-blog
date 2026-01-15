@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use App\Models\BlogArticle;
@@ -215,6 +214,29 @@ HTML,
             ]
         );
         $publishedAdmissions->tags()->sync($activityTags);
+
+        $kazakhTips = BlogArticle::updateOrCreate(
+            ['slug' => 'bala-okuyna-dayyndyk-kenester'],
+            [
+                'title' => 'Баланы оқуға дайындау бойынша қысқа кеңестер',
+                'slug' => 'bala-okuyna-dayyndyk-kenester',
+                'excerpt' => 'Үйдегі қарапайым әдеттер оқу жылын жеңіл бастауға көмектеседі.',
+                'content' => <<<HTML
+<h2>Күн тәртібін алдын ала түзетіңіз</h2>
+<p>Ұйқы мен таңертеңгі уақытты 2–3 апта бұрын реттеу баланың шаршамауына көмектеседі.</p>
+<h2>Оқу бұрышын ұйымдастырыңыз</h2>
+<p>Жарық жақсы түсетін, тыныш орын таңдаңыз. Үстелде қажет құралдар ғана болғаны дұрыс.</p>
+<h2>Мотивацияны қолдаңыз</h2>
+<p>Мақтау мен шағын мақсаттар баланың өзіне сенімді болуына ықпал етеді.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(10),
+                'author_id' => $author->id,
+                'category_id' => $tipsCategory?->id,
+            ]
+        );
+        $kazakhTips->tags()->sync($adviceTags);
 
         $afterSchool = BlogArticle::updateOrCreate(
             ['slug' => 'balanced-after-school-schedule'],
