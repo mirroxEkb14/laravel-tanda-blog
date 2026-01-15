@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use App\Models\BlogArticle;
@@ -22,25 +21,42 @@ class BlogArticleSeeder extends Seeder
             return;
         }
 
-        $admissionsCategory = BlogCategory::where('name', 'Поступление')->first();
-        $parentsCategory = BlogCategory::where('name', 'Родителям')->first();
-        $privateSchoolCategory = BlogCategory::where('name', 'Частные школы')->first();
-        $examPrepCategory = BlogCategory::where('name', 'Подготовка к экзаменам')->first();
-        $internationalCategory = BlogCategory::where('name', 'Международное обучение')->first();
+        $tipsCategory = BlogCategory::where('name', 'Tips')->first();
+        $parentsCategory = BlogCategory::where('name', 'For Parents')->first();
+        $privateSchoolCategory = BlogCategory::where('name', 'Private Schools')->first();
+        $admissionsCategory = BlogCategory::where('name', 'Admissions')->first();
+        $examPrepCategory = BlogCategory::where('name', 'Exam Preparation')->first();
+        $preschoolCategory = BlogCategory::where('name', 'Preschool Education')->first();
+        $internationalCategory = BlogCategory::where('name', 'International Education')->first();
+        $activitiesCategory = BlogCategory::where('name', 'Extracurricular Activities')->first();
+        $psychologyCategory = BlogCategory::where('name', 'Psychology and Motivation')->first();
+        $edtechCategory = BlogCategory::where('name', 'Education Technology')->first();
 
-        $adviceTags = BlogTag::whereIn('name', ['Рекомендации', 'Выбор школы', 'Родительское сообщество'])
+        $adviceTags = BlogTag::whereIn('name', ['Recommendations', 'School Choice', 'Parent Community'])
             ->pluck('id')
             ->all();
-        $examTags = BlogTag::whereIn('name', ['Подготовка', 'Экзамены', 'Мотивация'])
+        $examTags = BlogTag::whereIn('name', ['Preparation', 'Exams', 'Motivation'])
             ->pluck('id')
             ->all();
-        $supportTags = BlogTag::whereIn('name', ['Психология', 'Питание', 'Безопасность'])
+        $supportTags = BlogTag::whereIn('name', ['Psychology', 'Nutrition', 'Safety'])
             ->pluck('id')
             ->all();
-        $internationalTags = BlogTag::whereIn('name', ['Переезд', 'Стипендии'])
+        $internationalTags = BlogTag::whereIn('name', ['Relocation', 'Scholarships'])
             ->pluck('id')
             ->all();
-        $activityTags = BlogTag::whereIn('name', ['Внеурочка', 'Учебный план'])
+        $activityTags = BlogTag::whereIn('name', ['Extracurriculars', 'Curriculum'])
+            ->pluck('id')
+            ->all();
+        $digitalTags = BlogTag::whereIn('name', ['Digital Services', 'Curriculum'])
+            ->pluck('id')
+            ->all();
+        $financeTags = BlogTag::whereIn('name', ['Scholarships', 'School Choice'])
+            ->pluck('id')
+            ->all();
+        $wellbeingTags = BlogTag::whereIn('name', ['Psychology', 'Motivation', 'Parent Community'])
+            ->pluck('id')
+            ->all();
+        $preschoolTags = BlogTag::whereIn('name', ['Preparation', 'Recommendations'])
             ->pluck('id')
             ->all();
 
@@ -198,5 +214,143 @@ HTML,
             ]
         );
         $publishedAdmissions->tags()->sync($activityTags);
+
+        $kazakhTips = BlogArticle::updateOrCreate(
+            ['slug' => 'bala-okuyna-dayyndyk-kenester'],
+            [
+                'title' => 'Баланы оқуға дайындау бойынша қысқа кеңестер',
+                'slug' => 'bala-okuyna-dayyndyk-kenester',
+                'excerpt' => 'Үйдегі қарапайым әдеттер оқу жылын жеңіл бастауға көмектеседі.',
+                'content' => <<<HTML
+<h2>Күн тәртібін алдын ала түзетіңіз</h2>
+<p>Ұйқы мен таңертеңгі уақытты 2–3 апта бұрын реттеу баланың шаршамауына көмектеседі.</p>
+<h2>Оқу бұрышын ұйымдастырыңыз</h2>
+<p>Жарық жақсы түсетін, тыныш орын таңдаңыз. Үстелде қажет құралдар ғана болғаны дұрыс.</p>
+<h2>Мотивацияны қолдаңыз</h2>
+<p>Мақтау мен шағын мақсаттар баланың өзіне сенімді болуына ықпал етеді.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(10),
+                'author_id' => $author->id,
+                'category_id' => $tipsCategory?->id,
+            ]
+        );
+        $kazakhTips->tags()->sync($adviceTags);
+
+        $afterSchool = BlogArticle::updateOrCreate(
+            ['slug' => 'balanced-after-school-schedule'],
+            [
+                'title' => 'How to build a balanced after-school schedule',
+                'slug' => 'balanced-after-school-schedule',
+                'excerpt' => 'A framework for combining clubs, sports, and rest without overload.',
+                'content' => <<<HTML
+<h2>Start with energy, not hours</h2>
+<p>Map the week around your child’s energy levels. Place demanding activities on lighter academic days.</p>
+<h2>Choose one growth focus</h2>
+<p>Pick a main skill to develop each semester—language, sport, or arts—and avoid stacking too many similar clubs.</p>
+<h2>Protect recovery time</h2>
+<p>Schedule at least one low-commitment evening each week. Consistent rest keeps motivation strong.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(4),
+                'author_id' => $author->id,
+                'category_id' => $activitiesCategory?->id,
+            ]
+        );
+        $afterSchool->tags()->sync($activityTags);
+
+        $digitalLearning = BlogArticle::updateOrCreate(
+            ['slug' => 'digital-tools-for-home-learning'],
+            [
+                'title' => 'Digital tools for learning at home',
+                'slug' => 'digital-tools-for-home-learning',
+                'excerpt' => 'Recommended apps and routines that keep remote study productive.',
+                'content' => <<<HTML
+<h2>Pick one platform for organization</h2>
+<p>Use a single hub for assignments and deadlines so students can track tasks in one place.</p>
+<h2>Mix interactive and offline study</h2>
+<p>Combine short digital lessons with offline practice to avoid screen fatigue and boost retention.</p>
+<h2>Set clear boundaries</h2>
+<p>Agree on a start and end time for online study and keep devices in a shared space for better focus.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(6),
+                'author_id' => $author->id,
+                'category_id' => $edtechCategory?->id,
+            ]
+        );
+        $digitalLearning->tags()->sync($digitalTags);
+
+        $newSchool = BlogArticle::updateOrCreate(
+            ['slug' => 'helping-a-child-adjust-to-a-new-school'],
+            [
+                'title' => 'Helping a child adjust to a new school',
+                'slug' => 'helping-a-child-adjust-to-a-new-school',
+                'excerpt' => 'Practical steps to reduce anxiety and build confidence after a move.',
+                'content' => <<<HTML
+<h2>Prepare the first week</h2>
+<p>Visit the campus, walk the schedule, and meet the teacher if possible. Familiarity reduces stress.</p>
+<h2>Build a social bridge</h2>
+<p>Arrange one or two low-pressure meetups with classmates. Early connections help children feel safer.</p>
+<h2>Keep communication open</h2>
+<p>Ask specific questions about the day and acknowledge emotions. Consistency matters more than a single talk.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(3),
+                'author_id' => $author->id,
+                'category_id' => $psychologyCategory?->id,
+            ]
+        );
+        $newSchool->tags()->sync($wellbeingTags);
+
+        $preschoolReadiness = BlogArticle::updateOrCreate(
+            ['slug' => 'preschool-readiness-checklist'],
+            [
+                'title' => 'Preschool readiness checklist for families',
+                'slug' => 'preschool-readiness-checklist',
+                'excerpt' => 'Key skills, habits, and routines to practice before the first day.',
+                'content' => <<<HTML
+<h2>Daily independence</h2>
+<p>Practice dressing, washing hands, and tidying up toys. Small habits make the transition smoother.</p>
+<h2>Communication skills</h2>
+<p>Encourage your child to ask for help and express needs. Role-play simple classroom situations.</p>
+<h2>Gentle routines</h2>
+<p>Shift bedtime and morning routines 2–3 weeks before school starts to avoid fatigue.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(8),
+                'author_id' => $author->id,
+                'category_id' => $preschoolCategory?->id,
+            ]
+        );
+        $preschoolReadiness->tags()->sync($preschoolTags);
+
+        $scholarships = BlogArticle::updateOrCreate(
+            ['slug' => 'private-school-scholarships-and-aid'],
+            [
+                'title' => 'Private school scholarships and financial aid',
+                'slug' => 'private-school-scholarships-and-aid',
+                'excerpt' => 'Where to look for funding and how to prepare a strong application.',
+                'content' => <<<HTML
+<h2>Understand aid types</h2>
+<p>Ask whether the school offers merit awards, need-based aid, or sibling discounts. Each has different criteria.</p>
+<h2>Gather documents early</h2>
+<p>Prepare income statements, recommendation letters, and a short family statement in advance.</p>
+<h2>Track the calendar</h2>
+<p>Financial aid deadlines often come before admissions decisions. Create reminders to submit on time.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(9),
+                'author_id' => $author->id,
+                'category_id' => $privateSchoolCategory?->id,
+            ]
+        );
+        $scholarships->tags()->sync($financeTags);
     }
 }
