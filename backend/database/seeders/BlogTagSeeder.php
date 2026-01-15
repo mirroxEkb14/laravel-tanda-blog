@@ -8,9 +8,6 @@ use App\Models\BlogTag;
 
 class BlogTagSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $tags = [

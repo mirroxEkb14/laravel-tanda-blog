@@ -33,14 +33,16 @@ laravel-tanda-blog/
 │   ├── routes/
 │   ├── storage/
 │   ├── tests/
+│   ├── .env.example
 │   ├── artisan
 │   ├── composer.json
-│   ├── .env
 │   └── ...
 ├── docker/
 │   └── php/
 │       ├── Dockerfile
-│       └── entrypoint.sh
+│       ├── entrypoint.sh
+│       ├── entrypoint-scheduler.sh
+│       └── opcache.ini
 ├── .gitignore
 ├── docker-compose.yaml
 └── README.md
@@ -52,269 +54,30 @@ laravel-tanda-blog/
 > - 🐳Docker
 > - 🐳Docker Compose
 
-1. Clone the repository:
+1. <b>Clone</b> the repository:
 ```code
-> git clone git@gitlab.com:vance_7187-group/laravel-tanda-blog.git
-> cd laravel-tanda-blog
+> https://github.com/mirroxEkb14/laravel-tanda-blog.git
+> cd laravel-tanda-blog/
 ```
-2. Open */docker/php/entrypoint.sh* and */docker/php/entrypoint-scheduler.sh* in Visual Studio and select **LF** instead of **CRLF** to avoid Windows-Linux line-endings problem.
-3. Start the containers:
+2. <b>Open</b> */docker/php/entrypoint.sh* and */docker/php/entrypoint-scheduler.sh* in Visual Studio and select **LF** instead of **CRLF** to avoid Windows-Linux line-endings problem.
+3. <b>Start</b> the containers (~200 secs in GitBash so start the containers and ~60 secs in Docker Desktop to run the entrypoint scripts):
 ```code
 > docker compose up -d --build
 ```
-4. Open Admin panel on http://localhost:8080/admin after waiting containers setup up for ~1 minute (until "*Press Ctrl+C to stop the server*" message in Docker Desktop).
-    -  Default admin credentials: admin@tandateam.kz, qwerty123456.
+4. <b>Navigate</b> to Admin panel on http://localhost:8080/admin after waiting containers setup (until "*Press Ctrl+C to stop the server*" message in Docker Desktop).
+    -  Default admin credentials: admin@tandakids.kz, qwerty123456.
 
 ## 📊 API endpoints
 
-<b>Note</b>: The responses below were gotten considering the articles seeder used in the project.
+> To see the full API endpoints list with accurate response bodies, visit <a href="https://www.notion.so/Tanda-Blog-Backend-160350f4e44880dabf59e7782d031343?source=copy_link" target="_blank">Notion</a>.
 
-- Articles:
 ```
 GET /api/blog/articles
-```
-```
-{
-    "data": [
-        {
-            "id": 1,
-            "title": "How to Choose the Right Private School",
-            "slug": "how-to-choose-private-school",
-            "excerpt": "A practical guide for parents choosing a private school.",
-            "cover_image": null,
-            "reading_time": 0,
-            "publish_at": "2026-01-06"
-        }
-    ],
-    "meta": {
-        "page": 1,
-        "per_page": 9,
-        "total": 2,
-        "last_page": 1
-    }
-}
-```
-
-- Featured Articles:
-```
 GET /api/blog/articles/featured
-```
-```
-{
-    "data": [
-        {
-            "id": 1,
-            "title": "How to Choose the Right Private School",
-            "slug": "how-to-choose-private-school",
-            "excerpt": "A practical guide for parents choosing a private school.",
-            "cover_image": null,
-            "reading_time": 1,
-            "publish_at": "2026-01-06",
-            "category": {
-                "id": 1,
-                "name": "Schools",
-                "slug": "schools"
-            },
-            "tags": [
-                {
-                    "id": 1,
-                    "name": "Education",
-                    "slug": "education",
-                    "pivot": {
-                        "blog_article_id": 1,
-                        "blog_tag_id": 1
-                    }
-                },
-                {
-                    "id": 2,
-                    "name": "Parents",
-                    "slug": "parents",
-                    "pivot": {
-                        "blog_article_id": 1,
-                        "blog_tag_id": 2
-                    }
-                },
-                {
-                    "id": 3,
-                    "name": "Admissions",
-                    "slug": "admissions",
-                    "pivot": {
-                        "blog_article_id": 1,
-                        "blog_tag_id": 3
-                    }
-                }
-            ]
-        }
-    ]
-}
-```
-
-- Related Articles (ID: <i>1</i>):
-```
 GET /api/blog/articles/{id}/related
-```
-```
-{
-    "data": [
-        {
-            "id": 2,
-            "title": "IELTS Preparation Tips for 2025",
-            "slug": "ielts-preparation-tips-2025",
-            "excerpt": "What to focus on when preparing for IELTS.",
-            "cover_image": null,
-            "reading_time": 1,
-            "publish_at": "2026-01-14"
-        },
-        {
-            "id": 3,
-            "title": "Common Mistakes Parents Make When Choosing Schools",
-            "slug": "common-parent-mistakes-schools",
-            "excerpt": "Avoid these common pitfalls.",
-            "cover_image": null,
-            "reading_time": 1,
-            "publish_at": null
-        }
-    ],
-    "meta": {
-        "page": 1,
-        "per_page": 6,
-        "total": 2,
-        "last_page": 1
-    }
-}
-```
-
-<b>Note</b>: The related articles are fetched based on <i>(Category) OR (Tags)</i> matching. The response includes only published articles.
-
-- Article by slug (Slug: <i>ielts-preparation-tips-2025</i>):
-```
 GET /api/blog/articles/{slug}
-```
-```
-{
-    "data": {
-        "id": 2,
-        "title": "IELTS Preparation Tips for 2025",
-        "slug": "ielts-preparation-tips-2025",
-        "excerpt": "What to focus on when preparing for IELTS.",
-        "content": "<p>IELTS preparation requires a structured approach...</p>",
-        "cover_image": null,
-        "reading_time": 0,
-        "publish_at": "2026-01-14 03:14:45",
-        "views_count": 1,
-        "category": {
-            "id": 3,
-            "name": "Exams & IELTS",
-            "slug": "exams-ielts"
-        },
-        "tags": [
-            {
-                "id": 3,
-                "name": "Admissions",
-                "slug": "admissions",
-                "pivot": {
-                    "blog_article_id": 2,
-                    "blog_tag_id": 3
-                }
-            },
-            {
-                "id": 4,
-                "name": "Abroad",
-                "slug": "abroad",
-                "pivot": {
-                    "blog_article_id": 2,
-                    "blog_tag_id": 4
-                }
-            },
-            {
-                "id": 5,
-                "name": "Preparation",
-                "slug": "preparation",
-                "pivot": {
-                    "blog_article_id": 2,
-                    "blog_tag_id": 5
-                }
-            }
-        ],
-        "author": {
-            "id": 1,
-            "name": "Admin"
-        },
-        "seo": {
-            "title": null,
-            "description": null,
-            "keywords": null,
-            "canonical_url": null
-        }
-    }
-}
-```
-
-- Categories:
-```
 GET /api/blog/categories
-```
-```
-{
-    "data": [
-        {
-            "id": 3,
-            "name": "Exams & IELTS",
-            "slug": "exams-ielts"
-        },
-        {
-            "id": 2,
-            "name": "Kindergartens",
-            "slug": "kindergartens"
-        },
-        {
-            "id": 1,
-            "name": "Schools",
-            "slug": "schools"
-        }
-    ]
-}
-```
-
-- Tags:
-```
 GET /api/blog/tags
-```
-```
-{
-    "data": [
-        {
-            "id": 4,
-            "name": "Abroad",
-            "slug": "abroad"
-        },
-        {
-            "id": 3,
-            "name": "Admissions",
-            "slug": "admissions"
-        },
-        {
-            "id": 1,
-            "name": "Education",
-            "slug": "education"
-        },
-        {
-            "id": 2,
-            "name": "Parents",
-            "slug": "parents"
-        },
-        {
-            "id": 5,
-            "name": "Preparation",
-            "slug": "preparation"
-        },
-        {
-            "id": 6,
-            "name": "Tips",
-            "slug": "tips"
-        }
-    ]
-}
 ```
 
 ## 📩 Contacts
@@ -337,8 +100,4 @@ GET /api/blog/tags
 - реализовать Future features
 - update seeders: more complicated
 
-Notes:
-<br>
-liked articles, api to use controller only once, articlebyslag – send the same query, reorder for atricles
-
-'http://localhost:8080/api/blog/articles/1/related' not working, 'http://localhost:8080/api/blog/articles?category=schools' returns only with ID 1 (but ID 3 also Schools),
+<b>Notes</b>: liked articles, api to use controller only once, articlebyslag – send the same query, reorder for atricles
