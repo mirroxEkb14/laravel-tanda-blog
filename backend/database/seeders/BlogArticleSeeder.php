@@ -177,7 +177,7 @@ HTML,
 <p>Обсудите с ребенком культурные особенности, школьные правила и возможные трудности. Поддержка семьи в первые месяцы критически важна.</p>
 HTML,
                 'status' => 'published',
-                'featured' => false,
+                'featured' => true,
                 'publish_at' => now()->subDays(1),
                 'author_id' => $author->id,
                 'category_id' => $internationalCategory?->id,
@@ -273,7 +273,7 @@ HTML,
 <p>Agree on a start and end time for online study and keep devices in a shared space for better focus.</p>
 HTML,
                 'status' => 'published',
-                'featured' => false,
+                'featured' => true,
                 'publish_at' => now()->subDays(6),
                 'author_id' => $author->id,
                 'category_id' => $edtechCategory?->id,
@@ -318,9 +318,9 @@ HTML,
 <h2>Gentle routines</h2>
 <p>Shift bedtime and morning routines 2–3 weeks before school starts to avoid fatigue.</p>
 HTML,
-                'status' => 'published',
+                'status' => 'draft',
                 'featured' => false,
-                'publish_at' => now()->subDays(8),
+                'publish_at' => null,
                 'author_id' => $author->id,
                 'category_id' => $preschoolCategory?->id,
             ]
@@ -342,12 +342,36 @@ HTML,
 <p>Financial aid deadlines often come before admissions decisions. Create reminders to submit on time.</p>
 HTML,
                 'status' => 'published',
-                'featured' => false,
+                'featured' => true,
                 'publish_at' => now()->subDays(9),
                 'author_id' => $author->id,
                 'category_id' => $privateSchoolCategory?->id,
             ]
         );
         $scholarships->tags()->sync($financeTags);
+
+        $kazakhFamilies = BlogArticle::updateOrCreate(
+            ['slug' => 'otbasy-oku-zhospary'],
+            [
+                'title' => 'Отбасылық оқу жоспарын бірге жасау',
+                'slug' => 'otbasy-oku-zhospary',
+                'excerpt' => 'Апталық жоспарлау мен қолдау әдеттері баланың оқуына тұрақтылық береді.',
+                'content' => <<<HTML
+<h2>Мақсаттарды бірге белгілеңіз</h2>
+<p>Апта басында 2–3 нақты мақсат қойыңыз: оқу сағаты, бір кітап тарауы немесе жоба қадамы.</p>
+<h2>Көрнекі жоспар жасаңыз</h2>
+<p>Қарапайым кесте немесе тақта пайдаланыңыз. Баланың өзі белгілеп отырса, жауапкершілік артады.</p>
+<h2>Үзіліс пен демалысты ұмытпаңыз</h2>
+<p>Әр 30–40 минут сайын шағын үзіліс жасап, қозғалыс қосыңыз. Бұл назарды сақтауға көмектеседі.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(2),
+                'author_id' => $author->id,
+                'category_id' => $tipsCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&h=675&q=80',
+            ]
+        );
+        $kazakhFamilies->tags()->sync($adviceTags);
     }
 }

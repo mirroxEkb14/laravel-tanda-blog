@@ -51,6 +51,10 @@ class BlogCategorySeeder extends Seeder
                 'name' => 'Education Technology',
                 'description' => 'Digital tools and online learning.',
             ],
+            [
+                'name' => 'Community Programs',
+                'description' => 'Local initiatives and community learning opportunities.',
+            ],
         ];
 
         foreach ($categories as $category) {
