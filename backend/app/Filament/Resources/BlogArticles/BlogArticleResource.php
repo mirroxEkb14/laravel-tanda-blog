@@ -24,12 +24,32 @@ class BlogArticleResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static UnitEnum|string|null $navigationGroup = 'Библиотека';
-    protected static ?string $navigationLabel = 'Статьи блога';
+    protected static UnitEnum|string|null $navigationGroup = null;
+    protected static ?string $navigationLabel = null;
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $modelLabel = 'Статья';
-    protected static ?string $pluralModelLabel = 'Статьи блога';
+    protected static ?string $modelLabel = null;
+    protected static ?string $pluralModelLabel = null;
+
+    public static function getNavigationGroup(): BackedEnum|string|null
+    {
+        return __('filament.blog.navigation.library');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.blog.navigation.articles');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('filament.blog.articles.model_label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('filament.blog.articles.plural_label');
+    }
 
     public static function form(Schema $schema): Schema
     {

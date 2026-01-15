@@ -41,27 +41,27 @@ class BlogArticleForm
                         ->columns(1)
                         ->columnSpan(1)
                         ->schema([
-                            Section::make('Главное')
+                            Section::make(__('filament.blog.articles.sections.main'))
                                 ->columns(2)
                                 ->schema([
                                     TextInput::make('title')
-                                        ->label('Заголовок')
+                                        ->label(__('filament.blog.articles.fields.title'))
                                         ->required()
                                         ->maxLength(255)
                                         ->live(onBlur: true)
                                         ->afterStateUpdated(ResourceHelper::autoSlug('slug')),
                                     TextInput::make('slug')
-                                        ->label('Slug')
+                                        ->label(__('filament.fields.slug'))
                                         ->required()
                                         ->maxLength(255)
                                         ->unique(ignoreRecord: true),
                                     Textarea::make('excerpt')
-                                        ->label('Выдержка')
+                                        ->label(__('filament.blog.articles.fields.excerpt'))
                                         ->rows(3)
                                         ->columnSpanFull()
-                                        ->helperText('Короткое описание статьи для списков и превью'),
+                                        ->helperText(__('filament.blog.articles.fields.excerpt_help')),
                                     FileUpload::make('cover_image')
-                                        ->label('Обложка')
+                                        ->label(__('filament.blog.articles.fields.cover'))
                                         ->image()
                                         ->imageEditor()
                                         ->directory('blog/covers')
@@ -70,23 +70,23 @@ class BlogArticleForm
                                         ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                         ->columnSpanFull(),
                                 ]),
-                            Section::make('SEO')
+                            Section::make(__('filament.sections.seo'))
                                 ->collapsed()
                                 ->schema([
                                     TextInput::make('seo_title')
-                                        ->label('SEO заголовок')
+                                        ->label(__('filament.blog.articles.fields.seo_title'))
                                         ->maxLength(255),
                                     Textarea::make('seo_description')
-                                        ->label('SEO описание')
+                                        ->label(__('filament.blog.articles.fields.seo_description'))
                                         ->rows(3)
                                         ->maxLength(255)
                                         ->columnSpanFull(),
                                     TextInput::make('seo_keywords')
-                                        ->label('SEO ключевые слова')
+                                        ->label(__('filament.blog.articles.fields.seo_keywords'))
                                         ->maxLength(255)
-                                        ->helperText('Ключевые слова через запятую'),
+                                        ->helperText(__('filament.blog.articles.fields.seo_keywords_help')),
                                     TextInput::make('canonical_url')
-                                        ->label('Canonical URL-ссылка')
+                                        ->label(__('filament.blog.articles.fields.canonical_url'))
                                         ->maxLength(2048)
                                         ->url(),
                                 ]),
@@ -95,25 +95,25 @@ class BlogArticleForm
                         ->columns(1)
                         ->columnSpan(1)
                         ->schema([
-                            Section::make('Категории и теги')
+                            Section::make(__('filament.blog.articles.sections.categories_tags'))
                                 ->columns(2)
                                 ->schema([
                                     Select::make('category_id')
-                                        ->label('Категория')
+                                        ->label(__('filament.blog.articles.fields.category'))
                                         ->required()
                                         ->searchable()
                                         ->preload()
                                         ->relationship('category', 'name'),
                                     MultiSelect::make('tags')
-                                        ->label('Теги')
+                                        ->label(__('filament.blog.articles.fields.tags'))
                                         ->relationship('tags', 'name')
                                         ->searchable()
                                         ->preload(),
                                 ]),
-                            Section::make('Публикация')
+                            Section::make(__('filament.blog.articles.sections.publication'))
                                 ->schema([
                                     Select::make('status')
-                                        ->label('Статус')
+                                        ->label(__('filament.blog.articles.fields.status'))
                                         ->required()
                                         ->options(function ($record) {
                                             if ($record?->status === BlogArticleStatus::Published->value) {
@@ -126,41 +126,41 @@ class BlogArticleForm
                                         })
                                         ->default(BlogArticleStatus::Draft->value)
                                         ->live()
-                                        ->helperText('Если статья уже опубликована, статус "Черновик" будет недоступен'),
+                                        ->helperText(__('filament.blog.articles.fields.status_help_published')),
                                     DateTimePicker::make('publish_at')
-                                        ->label('Дата публикации')
+                                        ->label(__('filament.blog.articles.fields.publish_at'))
                                         ->seconds(false)
                                         ->required(fn ($get) => $get('status') === BlogArticleStatus::Scheduled->value)
                                         ->visible(fn ($get) => in_array(
                                             $get('status'),
                                             [BlogArticleStatus::Scheduled->value, BlogArticleStatus::Published->value]))
-                                        ->helperText('Необходима при выборе статуса "Запланировано"'),
+                                        ->helperText(__('filament.blog.articles.fields.publish_at_help')),
                                     Toggle::make('featured')
-                                        ->label('Избранное')
-                                        ->helperText('Отобразить статью в разделе избранного')
+                                        ->label(__('filament.blog.articles.fields.featured'))
+                                        ->helperText(__('filament.blog.articles.fields.featured_help'))
                                         ->default(false),
                                     Select::make('author_id')
-                                        ->label('Автор')
+                                        ->label(__('filament.blog.articles.fields.author'))
                                         ->required()
                                         ->relationship('author', 'name')
                                         ->searchable()
                                         ->preload(),
                                     TextInput::make('reading_time')
-                                        ->label('Время чтения')
+                                        ->label(__('filament.blog.articles.fields.reading_time'))
                                         ->numeric()
                                         ->disabled()
                                         ->dehydrated(false)
-                                        ->helperText('Авто-расчёт на основе контента статьи'),
+                                        ->helperText(__('filament.blog.articles.fields.reading_time_help')),
                                     Hidden::make('views_count')->default(0),
                                 ]),
                         ]),
-                    Section::make('Содержание')
+                    Section::make(__('filament.blog.articles.sections.content'))
                         ->columnSpan(2)
                         ->schema([
                             RichEditor::make('content')
-                                ->label('Контент (HTML)')
+                                ->label(__('filament.blog.articles.fields.content_html'))
                                 ->columnSpanFull()
-                                ->helperText('Основной контент статьи в формате HTML'),
+                                ->helperText(__('filament.blog.articles.fields.content_html_help')),
                         ]),
                 ])
         ]);

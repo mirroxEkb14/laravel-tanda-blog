@@ -13,17 +13,17 @@ class BlogTagForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            Section::make('Тег')
+            Section::make(__('filament.blog.tags.section'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('name')
-                        ->label('Название')
+                        ->label(__('filament.fields.name'))
                         ->required()
                         ->maxLength(80)
                         ->live(onBlur: true)
                         ->afterStateUpdated(ResourceHelper::autoSlug('slug')),
                     TextInput::make('slug')
-                        ->label('Slug')
+                        ->label(__('filament.fields.slug'))
                         ->required()
                         ->maxLength(120)
                         ->unique(ignoreRecord: true),
