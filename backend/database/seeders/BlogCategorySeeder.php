@@ -15,17 +15,54 @@ class BlogCategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            'Schools',
-            'Kindergartens',
-            'Exams & IELTS',
+            [
+                'name' => 'Советы',
+                'description' => 'Практические рекомендации для родителей и учеников.',
+            ],
+            [
+                'name' => 'Родителям',
+                'description' => 'Материалы для семей о выборе школы и учебном процессе.',
+            ],
+            [
+                'name' => 'Частные школы',
+                'description' => 'Обзоры и критерии выбора частных школ.',
+            ],
+            [
+                'name' => 'Поступление',
+                'description' => 'Этапы и документы для поступления в учебные заведения.',
+            ],
+            [
+                'name' => 'Подготовка к экзаменам',
+                'description' => 'Стратегии подготовки к тестам и олимпиадам.',
+            ],
+            [
+                'name' => 'Дошкольное образование',
+                'description' => 'Как выбрать детский сад и подготовить ребенка.',
+            ],
+            [
+                'name' => 'Международное обучение',
+                'description' => 'Советы по программам за рубежом и адаптации.',
+            ],
+            [
+                'name' => 'Внеклассные активности',
+                'description' => 'Кружки, секции и развитие навыков вне школы.',
+            ],
+            [
+                'name' => 'Психология и мотивация',
+                'description' => 'Поддержка ребенка и формирование учебной мотивации.',
+            ],
+            [
+                'name' => 'Технологии в образовании',
+                'description' => 'Цифровые инструменты и онлайн-обучение.',
+            ],
         ];
 
-        foreach ($categories as $name) {
+        foreach ($categories as $category) {
             BlogCategory::firstOrCreate(
-                ['slug' => Str::slug($name)],
+                ['slug' => Str::slug($category['name'])],
                 [
-                    'name' => $name,
-                    'description' => "Articles related to {$name}",
+                    'name' => $category['name'],
+                    'description' => $category['description'],
                 ]
             );
         }
