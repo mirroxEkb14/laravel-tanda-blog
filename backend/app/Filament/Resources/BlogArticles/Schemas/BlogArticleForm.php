@@ -10,10 +10,12 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\BlogCategory;
@@ -68,17 +70,27 @@ class BlogArticleForm
                                         ->disk('public')
                                         ->directory('blog/covers')
                                         ->visibility('public')
-                                        ->getUploadedFileUrlUsing(function (?string $state): ?string {
+                                        ->maxSize(5120)
+                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                        ->columnSpanFull(),
+                                    Placeholder::make('cover_image_preview')
+                                        ->hiddenLabel()
+                                        ->content(function ($get): ?HtmlString {
+                                            $state = $get('cover_image');
+
                                             if (blank($state)) {
                                                 return null;
                                             }
 
-                                            return Str::startsWith($state, ['http://', 'https://'])
+                                            $url = Str::startsWith($state, ['http://', 'https://'])
                                                 ? $state
                                                 : Storage::disk('public')->url($state);
+
+                                            return new HtmlString(
+                                                '<img src="' . e($url) . '" alt="' . e(__('filament.blog.articles.fields.cover')) . '" class="w-full max-w-xl rounded-lg" />'
+                                            );
                                         })
-                                        ->maxSize(5120)
-                                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                                        ->visible(fn ($get) => filled($get('cover_image')))
                                         ->columnSpanFull(),
                                 ]),
                             Section::make(__('filament.sections.seo'))
