@@ -82,6 +82,7 @@ HTML,
                 'publish_at' => now()->subDays(5),
                 'author_id' => $author->id,
                 'category_id' => $privateSchoolCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $published->tags()->sync($adviceTags);
@@ -111,6 +112,7 @@ HTML,
                 'publish_at' => Carbon::now()->addDays(3),
                 'author_id' => $author->id,
                 'category_id' => $examPrepCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $scheduled->tags()->sync($examTags);
@@ -134,6 +136,7 @@ HTML,
                 'featured' => false,
                 'author_id' => $author->id,
                 'category_id' => $parentsCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $draft->tags()->sync($adviceTags);
@@ -177,10 +180,11 @@ HTML,
 <p>Обсудите с ребенком культурные особенности, школьные правила и возможные трудности. Поддержка семьи в первые месяцы критически важна.</p>
 HTML,
                 'status' => 'published',
-                'featured' => false,
+                'featured' => true,
                 'publish_at' => now()->subDays(1),
                 'author_id' => $author->id,
                 'category_id' => $internationalCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $publishedInternational->tags()->sync($internationalTags);
@@ -208,6 +212,7 @@ HTML,
                 'publish_at' => now()->subDays(7),
                 'author_id' => $author->id,
                 'category_id' => $admissionsCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $publishedAdmissions->tags()->sync($activityTags);
@@ -231,6 +236,7 @@ HTML,
                 'publish_at' => now()->subDays(10),
                 'author_id' => $author->id,
                 'category_id' => $tipsCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $kazakhTips->tags()->sync($adviceTags);
@@ -254,6 +260,7 @@ HTML,
                 'publish_at' => now()->subDays(4),
                 'author_id' => $author->id,
                 'category_id' => $activitiesCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $afterSchool->tags()->sync($activityTags);
@@ -273,10 +280,11 @@ HTML,
 <p>Agree on a start and end time for online study and keep devices in a shared space for better focus.</p>
 HTML,
                 'status' => 'published',
-                'featured' => false,
+                'featured' => true,
                 'publish_at' => now()->subDays(6),
                 'author_id' => $author->id,
                 'category_id' => $edtechCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $digitalLearning->tags()->sync($digitalTags);
@@ -300,6 +308,7 @@ HTML,
                 'publish_at' => now()->subDays(3),
                 'author_id' => $author->id,
                 'category_id' => $psychologyCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $newSchool->tags()->sync($wellbeingTags);
@@ -318,11 +327,12 @@ HTML,
 <h2>Gentle routines</h2>
 <p>Shift bedtime and morning routines 2–3 weeks before school starts to avoid fatigue.</p>
 HTML,
-                'status' => 'published',
+                'status' => 'draft',
                 'featured' => false,
-                'publish_at' => now()->subDays(8),
+                'publish_at' => null,
                 'author_id' => $author->id,
                 'category_id' => $preschoolCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1511988617509-a57c8a288659?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $preschoolReadiness->tags()->sync($preschoolTags);
@@ -342,12 +352,37 @@ HTML,
 <p>Financial aid deadlines often come before admissions decisions. Create reminders to submit on time.</p>
 HTML,
                 'status' => 'published',
-                'featured' => false,
+                'featured' => true,
                 'publish_at' => now()->subDays(9),
                 'author_id' => $author->id,
                 'category_id' => $privateSchoolCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1519452575417-564c1401ecc0?auto=format&fit=crop&w=1200&h=675&q=80',
             ]
         );
         $scholarships->tags()->sync($financeTags);
+
+        $kazakhFamilies = BlogArticle::updateOrCreate(
+            ['slug' => 'otbasy-oku-zhospary'],
+            [
+                'title' => 'Отбасылық оқу жоспарын бірге жасау',
+                'slug' => 'otbasy-oku-zhospary',
+                'excerpt' => 'Апталық жоспарлау мен қолдау әдеттері баланың оқуына тұрақтылық береді.',
+                'content' => <<<HTML
+<h2>Мақсаттарды бірге белгілеңіз</h2>
+<p>Апта басында 2–3 нақты мақсат қойыңыз: оқу сағаты, бір кітап тарауы немесе жоба қадамы.</p>
+<h2>Көрнекі жоспар жасаңыз</h2>
+<p>Қарапайым кесте немесе тақта пайдаланыңыз. Баланың өзі белгілеп отырса, жауапкершілік артады.</p>
+<h2>Үзіліс пен демалысты ұмытпаңыз</h2>
+<p>Әр 30–40 минут сайын шағын үзіліс жасап, қозғалыс қосыңыз. Бұл назарды сақтауға көмектеседі.</p>
+HTML,
+                'status' => 'published',
+                'featured' => false,
+                'publish_at' => now()->subDays(2),
+                'author_id' => $author->id,
+                'category_id' => $tipsCategory?->id,
+                'cover_image' => 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&h=675&q=80',
+            ]
+        );
+        $kazakhFamilies->tags()->sync($adviceTags);
     }
 }
