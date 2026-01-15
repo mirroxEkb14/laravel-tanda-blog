@@ -14,6 +14,7 @@ use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
@@ -64,8 +65,18 @@ class BlogArticleForm
                                         ->label(__('filament.blog.articles.fields.cover'))
                                         ->image()
                                         ->imageEditor()
+                                        ->disk('public')
                                         ->directory('blog/covers')
                                         ->visibility('public')
+                                        ->getUploadedFileUrlUsing(function (?string $state): ?string {
+                                            if (blank($state)) {
+                                                return null;
+                                            }
+
+                                            return Str::startsWith($state, ['http://', 'https://'])
+                                                ? $state
+                                                : Storage::disk('public')->url($state);
+                                        })
                                         ->maxSize(5120)
                                         ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                                         ->columnSpanFull(),
