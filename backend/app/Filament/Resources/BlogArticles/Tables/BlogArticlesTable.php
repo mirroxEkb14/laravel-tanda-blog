@@ -19,7 +19,7 @@ use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\BlogCategory;
-use App\Enums\BlogArticleStatus;
+use App\Enums\BlogArticleStatusEnum;
 use App\Support\AdminNotifications;
 
 /**
@@ -72,7 +72,7 @@ class BlogArticlesTable
                     ->relationship('category', 'name'),
                 SelectFilter::make('status')
                     ->label(__('filament.blog.articles.table.status'))
-                    ->options(BlogArticleStatus::options()),
+                    ->options(BlogArticleStatusEnum::options()),
                 SelectFilter::make('author_id')
                     ->label(__('filament.blog.articles.table.author'))
                     ->relationship('author', 'name'),
@@ -117,7 +117,7 @@ class BlogArticlesTable
                         ->icon('heroicon-o-cloud-arrow-up')
                         ->action(function (Collection $records) {
                             $count = $records->count();
-                            $records->each->update(['status' => BlogArticleStatus::Published->value,]);
+                            $records->each->update(['status' => BlogArticleStatusEnum::Published->value,]);
                             AdminNotifications::articlesPublished($count);
                         })
                         ->requiresConfirmation(),
@@ -126,7 +126,7 @@ class BlogArticlesTable
                         ->icon('heroicon-o-archive-box-arrow-down')
                         ->action(function (Collection $records) {
                             $count = $records->count();
-                            $records->each->update(['status' => BlogArticleStatus::Draft->value,]);
+                            $records->each->update(['status' => BlogArticleStatusEnum::Draft->value,]);
                             AdminNotifications::articlesMovedToDraft($count);
                         })
                         ->requiresConfirmation(),

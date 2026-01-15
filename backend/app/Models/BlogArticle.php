@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use App\Enums\BlogArticleStatus;
+use App\Enums\BlogArticleStatusEnum;
 
 class BlogArticle extends Model
 {
@@ -67,7 +67,7 @@ class BlogArticle extends Model
      */
     public function scopePublished($query)
     {
-        return $query->where('status', BlogArticleStatus::Published->value)
+        return $query->where('status', BlogArticleStatusEnum::Published->value)
             ->where(function ($q) {
                 $q->whereNull('publish_at')->orWhere('publish_at', '<=', now());
             });
@@ -79,7 +79,7 @@ class BlogArticle extends Model
     public function scopeReadyToPublish($query)
     {
         return $query
-            ->where('status', BlogArticleStatus::Scheduled->value)
+            ->where('status', BlogArticleStatusEnum::Scheduled->value)
             ->whereNotNull('publish_at')
             ->where('publish_at', '<=', now());
     }

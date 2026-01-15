@@ -6,7 +6,7 @@ use App\Filament\Resources\BlogArticles\BlogArticleResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Actions\Action;
-use App\Enums\BlogArticleStatus;
+use App\Enums\BlogArticleStatusEnum;
 use App\Support\AdminNotifications;
 
 class EditBlogArticle extends EditRecord
@@ -22,7 +22,7 @@ class EditBlogArticle extends EditRecord
             Action::make('moveToDraft')
                 ->label(__('filament.blog.articles.actions.move_to_draft'))
                 ->color('warning')
-                ->visible(fn () => $this->record->status === BlogArticleStatus::Published->value)
+                ->visible(fn () => $this->record->status === BlogArticleStatusEnum::Published->value)
                 ->requiresConfirmation()
                 ->modalHeading(__('filament.blog.articles.actions.draft_modal_heading'))
                 ->modalDescription(__('filament.blog.articles.actions.draft_modal_description'))
@@ -30,7 +30,7 @@ class EditBlogArticle extends EditRecord
                 ->modalCancelActionLabel(__('filament.actions.cancel'))
                 ->action(function () {
                     $this->record->update([
-                        'status' => BlogArticleStatus::Draft->value,
+                        'status' => BlogArticleStatusEnum::Draft->value,
                         'publish_at' => null,
                     ]);
                     AdminNotifications::articleMovedToDraft();
@@ -45,10 +45,10 @@ class EditBlogArticle extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         if (
-            ($this->record->status ?? null) === BlogArticleStatus::Published->value
-            && ($data['status'] ?? null) === BlogArticleStatus::Draft->value
+            ($this->record->status ?? null) === BlogArticleStatusEnum::Published->value
+            && ($data['status'] ?? null) === BlogArticleStatusEnum::Draft->value
         ) {
-            $data['status'] = BlogArticleStatus::Published->value;
+            $data['status'] = BlogArticleStatusEnum::Published->value;
         }
         return $data;
     }

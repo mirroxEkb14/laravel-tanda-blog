@@ -8,9 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SetAdminLocale
 {
-    /**
-     * Handle an incoming request.
-     */
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();

@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\BlogArticle;
-use App\Enums\BlogArticleStatus;
+use App\Enums\BlogArticleStatusEnum;
 
 /**
  * Command publishes blog articles that were scheduled for a future date (from
@@ -18,7 +18,7 @@ class PublishScheduledBlogArticles extends Command
     public function handle(): int
     {
         $count = BlogArticle::readyToPublish()
-            ->update(['status' => BlogArticleStatus::Published->value]);
+            ->update(['status' => BlogArticleStatusEnum::Published->value]);
 
         $this->info("Published {$count} scheduled article(s)");
         return self::SUCCESS;

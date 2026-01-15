@@ -17,7 +17,7 @@ use Filament\Forms\Components\Toggle;
 use Illuminate\Support\Str;
 use App\Models\BlogCategory;
 use App\Models\BlogTag;
-use App\Enums\BlogArticleStatus;
+use App\Enums\BlogArticleStatusEnum;
 use App\Support\ResourceHelper;
 
 /**
@@ -116,24 +116,24 @@ class BlogArticleForm
                                         ->label(__('filament.blog.articles.fields.status'))
                                         ->required()
                                         ->options(function ($record) {
-                                            if ($record?->status === BlogArticleStatus::Published->value) {
+                                            if ($record?->status === BlogArticleStatusEnum::Published->value) {
                                                 return [
-                                                    BlogArticleStatus::Scheduled->value => BlogArticleStatus::Scheduled->label(),
-                                                    BlogArticleStatus::Published->value => BlogArticleStatus::Published->label(),
+                                                    BlogArticleStatusEnum::Scheduled->value => BlogArticleStatusEnum::Scheduled->label(),
+                                                    BlogArticleStatusEnum::Published->value => BlogArticleStatusEnum::Published->label(),
                                                 ];
                                             }
-                                            return BlogArticleStatus::options();
+                                            return BlogArticleStatusEnum::options();
                                         })
-                                        ->default(BlogArticleStatus::Draft->value)
+                                        ->default(BlogArticleStatusEnum::Draft->value)
                                         ->live()
                                         ->helperText(__('filament.blog.articles.fields.status_help_published')),
                                     DateTimePicker::make('publish_at')
                                         ->label(__('filament.blog.articles.fields.publish_at'))
                                         ->seconds(false)
-                                        ->required(fn ($get) => $get('status') === BlogArticleStatus::Scheduled->value)
+                                        ->required(fn ($get) => $get('status') === BlogArticleStatusEnum::Scheduled->value)
                                         ->visible(fn ($get) => in_array(
                                             $get('status'),
-                                            [BlogArticleStatus::Scheduled->value, BlogArticleStatus::Published->value]))
+                                            [BlogArticleStatusEnum::Scheduled->value, BlogArticleStatusEnum::Published->value]))
                                         ->helperText(__('filament.blog.articles.fields.publish_at_help')),
                                     Toggle::make('featured')
                                         ->label(__('filament.blog.articles.fields.featured'))
