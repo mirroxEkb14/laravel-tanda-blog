@@ -8,9 +8,6 @@ use App\Models\BlogCategory;
 
 class BlogCategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $categories = [

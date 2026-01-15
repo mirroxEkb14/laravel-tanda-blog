@@ -11,9 +11,6 @@ use App\Models\User;
 
 class BlogArticleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $author = User::first();
