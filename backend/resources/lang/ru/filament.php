@@ -112,6 +112,7 @@ return [
             'model_label' => 'Категория',
             'plural_label' => 'Категории блога',
             'section' => 'Категория',
+            'delete_block_reason' => 'Нельзя удалить категорию, используемую в статьях блога',
             'table' => [
                 'articles' => 'Статьи',
             ],
@@ -120,6 +121,7 @@ return [
             'model_label' => 'Тег',
             'plural_label' => 'Теги блога',
             'section' => 'Тег',
+            'delete_block_reason' => 'Нельзя удалить тег, используемый в статьях блога',
             'table' => [
                 'articles' => 'Статьи',
             ],

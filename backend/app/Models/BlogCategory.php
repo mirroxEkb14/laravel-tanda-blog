@@ -33,6 +33,6 @@ class BlogCategory extends Model
 
     public function deleteBlockReason(): string
     {
-        return 'Нельзя удалить категорию, используемую в статьях блога';
+        return __('filament.blog.categories.delete_block_reason');
     }
 }

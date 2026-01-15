@@ -35,6 +35,6 @@ class BlogTag extends Model
 
     public function deleteBlockReason(): string
     {
-        return 'Нельзя удалить тег, используемый в статьях блога';
+        return __('filament.blog.tags.delete_block_reason');
     }
 }

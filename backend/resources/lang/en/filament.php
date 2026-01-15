@@ -112,6 +112,7 @@ return [
             'model_label' => 'Category',
             'plural_label' => 'Blog categories',
             'section' => 'Category',
+            'delete_block_reason' => 'You cannot delete a category that is used by blog articles',
             'table' => [
                 'articles' => 'Articles',
             ],
@@ -120,6 +121,7 @@ return [
             'model_label' => 'Tag',
             'plural_label' => 'Blog tags',
             'section' => 'Tag',
+            'delete_block_reason' => 'You cannot delete a tag that is used by blog articles',
             'table' => [
                 'articles' => 'Articles',
             ],
