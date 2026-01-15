@@ -62,24 +62,24 @@ class BlogArticleSeeder extends Seeder
             ->all();
 
         $published = BlogArticle::updateOrCreate(
-            ['slug' => 'choosing-a-private-school-checklist'],
+            ['slug' => 'kak-vybrat-chastnuyu-shkolu'],
             [
-                'title' => 'How to choose a private school: a family checklist',
-                'slug' => 'choosing-a-private-school-checklist',
-                'excerpt' => 'Criteria that help compare private schools and pick the best fit.',
+                'title' => 'Как выбрать частную школу: чек-лист для семьи',
+                'slug' => 'kak-vybrat-chastnuyu-shkolu',
+                'excerpt' => 'Критерии, которые помогут сравнить частные школы и выбрать подходящую.',
                 'content' => <<<HTML
-<h2>Define your family priorities</h2>
-<p>Start by clarifying what matters most: advanced academics, small classes, project-based learning, or strong extracurriculars. A short list of criteria keeps the comparison objective.</p>
-<h3>Review the academic program</h3>
+<h2>Определите приоритеты семьи</h2>
+<p>Сначала сформулируйте, что для вас важно: углубленные предметы, небольшие классы, проектное обучение или насыщенная внеурочная жизнь. Составьте короткий список критериев, чтобы оценки школ были объективными.</p>
+<h3>Проверьте образовательную программу</h3>
 <ul>
-    <li>Ask which tracks are available in middle and high school.</li>
-    <li>Check how many hours are allocated to core subjects.</li>
-    <li>Learn how feedback and grading are handled.</li>
+    <li>Уточните, какие профили доступны с 8–9 класса.</li>
+    <li>Посмотрите, сколько часов отведено на ключевые предметы.</li>
+    <li>Спросите о системе оценки и обратной связи.</li>
 </ul>
-<p>Request a sample curriculum and weekly schedule to see the real workload.</p>
-<h3>Visit the campus</h3>
-<p>During the tour, note the atmosphere, teacher-student communication, and availability of counseling or tutoring. Ask how the school supports students during the first months.</p>
-<p><strong>Tip:</strong> write a short summary after each visit to keep impressions organized.</p>
+<p>Не забудьте запросить пример учебного плана и расписания — так легче понять реальную нагрузку ребенка.</p>
+<h3>Посетите школу лично</h3>
+<p>На экскурсии обратите внимание на атмосферу, коммуникацию между педагогами и учениками, доступность психолога и тьюторов. Обязательно задайте вопросы о поддержке ребенка в период адаптации.</p>
+<p><strong>Совет:</strong> составьте короткий отчет после визита, чтобы не перепутать впечатления от разных школ.</p>
 HTML,
                 'status' => 'published',
                 'featured' => true,
@@ -91,23 +91,23 @@ HTML,
         $published->tags()->sync($adviceTags);
 
         $scheduled = BlogArticle::updateOrCreate(
-            ['slug' => 'exam-prep-plan-6-steps'],
+            ['slug' => 'plan-podgotovki-k-ekzamenam'],
             [
-                'title' => 'Exam prep plan: 6 steps without burnout',
-                'slug' => 'exam-prep-plan-6-steps',
-                'excerpt' => 'A structured approach to exam preparation that respects the student pace.',
+                'title' => 'План подготовки к экзаменам: 6 шагов без перегруза',
+                'slug' => 'plan-podgotovki-k-ekzamenam',
+                'excerpt' => 'Структурированный подход к экзаменам с учетом темпа ребенка.',
                 'content' => <<<HTML
-<h2>Step 1. Diagnose knowledge gaps</h2>
-<p>Start with a diagnostic test to identify strengths and weak spots. Use the results to map out the topics that need attention.</p>
-<h2>Step 2. Build a 10–12 week schedule</h2>
-<p>Break preparation into weekly blocks and alternate heavy topics with review. Leave 1–2 days per week for rest and recovery.</p>
-<h2>Step 3. Practice the real format</h2>
-<p>Train with the same format, timing, and scoring criteria as the exam. This reduces anxiety and improves performance.</p>
-<h3>Helpful habits</h3>
+<h2>Шаг 1. Диагностика знаний</h2>
+<p>Начните с пробного теста, чтобы увидеть сильные стороны и пробелы. На основе результатов составьте список тем, которые требуют внимания.</p>
+<h2>Шаг 2. Расписание на 10–12 недель</h2>
+<p>Разбейте подготовку на недели и чередуйте сложные темы с повторением. Планируйте 1–2 дня в неделю для отдыха и восстановления.</p>
+<h2>Шаг 3. Формат экзамена</h2>
+<p>Тренируйте именно тот формат, который будет на экзамене: тайминг, типовые задания, критерии оценки. Это снижает тревожность и улучшает результат.</p>
+<h3>Полезные привычки</h3>
 <ol>
-    <li>Keep a prep journal.</li>
-    <li>Set measurable weekly goals.</li>
-    <li>Plan tutor check-ins early.</li>
+    <li>Вести дневник подготовки.</li>
+    <li>Ставить измеримые цели на неделю.</li>
+    <li>Заранее планировать консультации с преподавателем.</li>
 </ol>
 HTML,
                 'status' => 'scheduled',
@@ -120,19 +120,19 @@ HTML,
         $scheduled->tags()->sync($examTags);
 
         $draft = BlogArticle::updateOrCreate(
-            ['slug' => 'parent-mistakes-when-choosing-a-school'],
+            ['slug' => 'oshibki-roditeley-pri-vybore-shkoly'],
             [
-                'title' => 'Common parent mistakes when choosing a school',
-                'slug' => 'parent-mistakes-when-choosing-a-school',
-                'excerpt' => 'What families often overlook when selecting a school and how to avoid it.',
+                'title' => 'Частые ошибки родителей при выборе школы',
+                'slug' => 'oshibki-roditeley-pri-vybore-shkoly',
+                'excerpt' => 'На что часто не обращают внимания при выборе школы и как этого избежать.',
                 'content' => <<<HTML
-<h2>Mistake 1. Relying only on rankings</h2>
-<p>Rankings matter, but they rarely explain workload, teaching style, or student support. Talk to current families for real context.</p>
-<h2>Mistake 2. Ignoring logistics</h2>
-<p>A long commute can drain energy quickly. Review transportation options and scheduling flexibility.</p>
-<h2>Mistake 3. Not aligning expectations with the child</h2>
-<p>If a child values social connections and the school focuses on individual work, stress can follow. Discuss priorities together.</p>
-<p><strong>Bottom line:</strong> choose a school where your family values and the learning approach align.</p>
+<h2>Ошибка 1. Ориентироваться только на рейтинг</h2>
+<p>Рейтинг важен, но не рассказывает о нагрузке, стиле преподавания и подходе к детям. Обязательно поговорите с учениками и родителями.</p>
+<h2>Ошибка 2. Игнорировать логистику</h2>
+<p>Долгая дорога до школы быстро снижает мотивацию и качество отдыха. Рассмотрите транспорт и возможность гибкого графика.</p>
+<h2>Ошибка 3. Не обсуждать ожидания с ребенком</h2>
+<p>Если ребенку важно общение, а школа делает ставку на индивидуальные занятия, это может привести к стрессу. Сформулируйте ожидания вместе.</p>
+<p><strong>Вывод:</strong> выбирайте школу, где совпадают ценности семьи и образовательная стратегия.</p>
 HTML,
                 'status' => 'draft',
                 'featured' => false,
@@ -143,19 +143,19 @@ HTML,
         $draft->tags()->sync($adviceTags);
 
         $publishedSupport = BlogArticle::updateOrCreate(
-            ['slug' => 'school-safety-and-nutrition-questions'],
+            ['slug' => 'bezopasnost-i-pitanie-v-shkole'],
             [
-                'title' => 'School safety and nutrition: questions to ask',
-                'slug' => 'school-safety-and-nutrition-questions',
-                'excerpt' => 'Key questions about security, health support, and meals.',
+                'title' => 'Безопасность и питание в школе: что спросить на встрече',
+                'slug' => 'bezopasnost-i-pitanie-v-shkole',
+                'excerpt' => 'Ключевые вопросы о безопасности, медподдержке и рационе ребенка.',
                 'content' => <<<HTML
-<h2>Safety and facilities</h2>
-<p>Ask how campus access is controlled, whether cameras are used, and who supervises students during breaks and trips.</p>
-<h2>Health support</h2>
-<p>Check if there is an on-site nurse, how medications are stored, and who monitors student well-being.</p>
-<h2>Nutrition</h2>
-<p>Request a sample menu and ask how allergies or dietary needs are handled. Flexibility matters for long-term comfort.</p>
-<p><strong>Tip:</strong> get the direct contact for the nutrition coordinator to resolve issues quickly.</p>
+<h2>Безопасность и инфраструктура</h2>
+<p>Уточните, как устроена система доступа в школу, есть ли видеонаблюдение, кто сопровождает детей на прогулках и экскурсиях.</p>
+<h2>Медицинская поддержка</h2>
+<p>Спросите, есть ли медкабинет, как оформляется хранение лекарств и кто следит за самочувствием учащихся.</p>
+<h2>Питание</h2>
+<p>Попросите пример меню на неделю и узнайте, можно ли адаптировать рацион для аллергиков. Важно понимать, насколько гибко школа реагирует на запросы семьи.</p>
+<p><strong>Совет:</strong> попросите контакты ответственного за питание, чтобы быстро решать вопросы в течение года.</p>
 HTML,
                 'status' => 'published',
                 'featured' => false,
@@ -167,18 +167,18 @@ HTML,
         $publishedSupport->tags()->sync($supportTags);
 
         $publishedInternational = BlogArticle::updateOrCreate(
-            ['slug' => 'preparing-to-study-abroad'],
+            ['slug' => 'kak-podgotovitsya-k-obucheniyu-za-rubezhom'],
             [
-                'title' => 'Preparing to study abroad',
-                'slug' => 'preparing-to-study-abroad',
-                'excerpt' => 'A plan for relocation, paperwork, and family logistics.',
+                'title' => 'Как подготовиться к обучению за рубежом',
+                'slug' => 'kak-podgotovitsya-k-obucheniyu-za-rubezhom',
+                'excerpt' => 'План переезда, документы и бытовые вопросы для семей.',
                 'content' => <<<HTML
-<h2>Documents and deadlines</h2>
-<p>Create a calendar for applications, visas, and housing. The earlier you start, the less stressful the final weeks will be.</p>
-<h2>Financial planning</h2>
-<p>Estimate tuition, housing, and travel costs. Many schools offer scholarships—learn the criteria in advance.</p>
-<h2>Helping your child adapt</h2>
-<p>Discuss cultural expectations, school rules, and likely challenges. Family support in the first months is essential.</p>
+<h2>Документы и сроки</h2>
+<p>Составьте календарь дедлайнов: подача заявок, оформление визы, бронь жилья. Чем раньше начнете, тем меньше стресс в финале.</p>
+<h2>Финансовый план</h2>
+<p>Посчитайте расходы на обучение, проживание и перелеты. Некоторые школы предлагают стипендии — уточните критерии заранее.</p>
+<h2>Адаптация ребенка</h2>
+<p>Обсудите с ребенком культурные особенности, школьные правила и возможные трудности. Поддержка семьи в первые месяцы критически важна.</p>
 HTML,
                 'status' => 'published',
                 'featured' => false,
@@ -190,22 +190,22 @@ HTML,
         $publishedInternational->tags()->sync($internationalTags);
 
         $publishedAdmissions = BlogArticle::updateOrCreate(
-            ['slug' => 'admissions-document-checklist'],
+            ['slug' => 'spisok-dokumentov-dlya-postupleniya'],
             [
-                'title' => 'Admissions document checklist without the stress',
-                'slug' => 'admissions-document-checklist',
-                'excerpt' => 'What to prepare early and how to avoid common paperwork mistakes.',
+                'title' => 'Список документов для поступления: без лишней суеты',
+                'slug' => 'spisok-dokumentov-dlya-postupleniya',
+                'excerpt' => 'Какие документы подготовить заранее и как избежать ошибок.',
                 'content' => <<<HTML
-<h2>Core documents</h2>
+<h2>Базовый пакет</h2>
 <ul>
-    <li>Birth certificate or passport.</li>
-    <li>Medical records and vaccination history.</li>
-    <li>Transcript or recommendation from the previous school.</li>
+    <li>Свидетельство о рождении или паспорт.</li>
+    <li>Медицинская карта и прививки.</li>
+    <li>Характеристика из предыдущего места обучения.</li>
 </ul>
-<h2>Additional materials</h2>
-<p>Some schools ask for portfolios, competition results, or essays. Confirm the required format and deadlines.</p>
-<h2>Organization tips</h2>
-<p>Scan documents and keep them in cloud storage to share copies quickly and protect originals.</p>
+<h2>Дополнительные материалы</h2>
+<p>Некоторые школы просят портфолио, результаты олимпиад или эссе. Спросите, в каком формате нужно предоставить материалы.</p>
+<h2>Советы по организации</h2>
+<p>Сканируйте документы и храните их в облаке. Так проще отправлять копии и не терять оригиналы.</p>
 HTML,
                 'status' => 'published',
                 'featured' => false,
