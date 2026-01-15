@@ -108,8 +108,42 @@ GET /api/blog/articles/featured
             "slug": "how-to-choose-private-school",
             "excerpt": "A practical guide for parents choosing a private school.",
             "cover_image": null,
-            "reading_time": 0,
-            "publish_at": "2026-01-06"
+            "reading_time": 1,
+            "publish_at": "2026-01-06",
+            "category": {
+                "id": 1,
+                "name": "Schools",
+                "slug": "schools"
+            },
+            "tags": [
+                {
+                    "id": 1,
+                    "name": "Education",
+                    "slug": "education",
+                    "pivot": {
+                        "blog_article_id": 1,
+                        "blog_tag_id": 1
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "Parents",
+                    "slug": "parents",
+                    "pivot": {
+                        "blog_article_id": 1,
+                        "blog_tag_id": 2
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "Admissions",
+                    "slug": "admissions",
+                    "pivot": {
+                        "blog_article_id": 1,
+                        "blog_tag_id": 3
+                    }
+                }
+            ]
         }
     ]
 }
