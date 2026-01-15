@@ -1,11 +1,11 @@
 <x-filament-panels::page>
-    <form wire:submit="save" class="space-y-6">
-        {{ $this->form }}
-
-        <div class="pt-4">
-            <x-filament::button type="submit">
-                {{ __('filament.profile.save') }}
-            </x-filament::button>
+    <form wire:submit="save">
+        <div class="mb-6">
+            {{ $this->form }}
         </div>
+
+        <x-filament::button type="submit">
+            {{ __('filament.profile.save') }}
+        </x-filament::button>
     </form>
 </x-filament-panels::page>

@@ -4,11 +4,11 @@ namespace App\Observers;
 
 use App\Models\BlogArticle;
 use Illuminate\Support\Str;
-use App\Enums\BlogArticleStatus;
+use App\Enums\BlogArticleStatusEnum;
 
 /**
  * Observer holds lifecycle rules and runs on save (create/update) to keep data consistent.
- * 
+ *
  * Auto-generates slug if missing.
  * Calculates reading time from HTML content (HTML -> plain text -> word count -> minutes (approx. 200 wpm)),
  *      ensures at least 1 minute if there is content and rounds up (201 words -> 2 minutes).
@@ -32,16 +32,16 @@ class BlogArticleObserver
             $article->reading_time = 0;
         }
 
-        if ($article->status === BlogArticleStatus::Scheduled->value && blank($article->publish_at)) {
-            $article->status = BlogArticleStatus::Draft->value;
+        if ($article->status === BlogArticleStatusEnum::Scheduled->value && blank($article->publish_at)) {
+            $article->status = BlogArticleStatusEnum::Draft->value;
         }
 
         if (
-            $article->status === BlogArticleStatus::Published->value
+            $article->status === BlogArticleStatusEnum::Published->value
             && filled($article->publish_at)
             && $article->publish_at->isFuture()
         ) {
-            $article->status = BlogArticleStatus::Scheduled->value;
+            $article->status = BlogArticleStatusEnum::Scheduled->value;
         }
     }
 
