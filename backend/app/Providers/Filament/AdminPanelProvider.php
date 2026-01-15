@@ -45,9 +45,7 @@ class AdminPanelProvider extends PanelProvider
                 AccountWidget::class,
                 FilamentInfoWidget::class,
             ])
-            ->plugins([
-                FilamentShieldPlugin::make(),
-            ])
+            ->plugins($this->plugins())
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -63,5 +61,19 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    /**
+     * @return array<int, \Filament\Contracts\Plugin>
+     */
+    protected function plugins(): array
+    {
+        $plugins = [];
+
+        if (class_exists(FilamentShieldPlugin::class)) {
+            $plugins[] = FilamentShieldPlugin::make();
+        }
+
+        return $plugins;
     }
 }

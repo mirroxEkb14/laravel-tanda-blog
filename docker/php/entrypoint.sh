@@ -24,6 +24,11 @@ if [ ! -f "vendor/autoload.php" ]; then
   composer install --no-interaction --prefer-dist
 fi
 
+echo "==> Ensuring Filament Shield & Spatie Permission are installed..."
+if ! php -r "exit(class_exists('BezhanSalleh\\\\FilamentShield\\\\FilamentShieldPlugin') ? 0 : 1);" >/dev/null 2>&1; then
+  composer update bezhansalleh/filament-shield spatie/laravel-permission --no-interaction --prefer-dist
+fi
+
 echo "==> Generating app key (if missing)..."
 php artisan key:generate --force || true
 
