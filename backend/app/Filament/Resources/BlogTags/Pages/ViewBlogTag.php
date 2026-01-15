@@ -17,9 +17,9 @@ class ViewBlogTag extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            EditAction::make()->label('Изменить'),
+            EditAction::make()->label(__('filament.actions.edit')),
             DeleteAction::make()
-                ->label('Удалить')
+                ->label(__('filament.actions.delete'))
                 ->disabled(fn () => $this->record->isUsed())
                 ->tooltip(fn () => $this->record->isUsed() ? $this->record->deleteBlockReason() : null)
                 ->requiresConfirmation(),

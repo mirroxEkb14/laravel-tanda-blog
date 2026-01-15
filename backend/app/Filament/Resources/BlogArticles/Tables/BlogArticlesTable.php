@@ -37,50 +37,50 @@ class BlogArticlesTable
                     ->label('#')
                     ->sortable(),
                 ImageColumn::make('cover_image')
-                    ->label('Обложка')
+                    ->label(__('filament.blog.articles.table.cover'))
                     ->square()
                     ->toggleable(),
                 TextColumn::make('title')
-                    ->label('Заголовок')
+                    ->label(__('filament.blog.articles.table.title'))
                     ->searchable()
                     ->sortable()
                     ->limit(60),
                 TextColumn::make('category.name')
-                    ->label('Категория')
+                    ->label(__('filament.blog.articles.table.category'))
                     ->sortable(),
                 TextColumn::make('status')
-                    ->label('Статус')
+                    ->label(__('filament.blog.articles.table.status'))
                     ->badge()
                     ->sortable(),
                 ToggleColumn::make('featured')
-                    ->label('Избранное')
+                    ->label(__('filament.blog.articles.table.featured'))
                     ->sortable(),
                 TextColumn::make('author.name')
-                    ->label('Автор')
+                    ->label(__('filament.blog.articles.table.author'))
                     ->sortable(),
                 TextColumn::make('publish_at')
-                    ->label('Дата публикации')
+                    ->label(__('filament.blog.articles.table.published_at'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('views_count')
-                    ->label('Просмотры')
+                    ->label(__('filament.blog.articles.table.views'))
                     ->sortable(),
             ])
             ->filters([
                 SelectFilter::make('category_id')
-                    ->label('Категория')
+                    ->label(__('filament.blog.articles.table.category'))
                     ->relationship('category', 'name'),
                 SelectFilter::make('status')
-                    ->label('Статус')
+                    ->label(__('filament.blog.articles.table.status'))
                     ->options(BlogArticleStatus::options()),
                 SelectFilter::make('author_id')
-                    ->label('Автор')
+                    ->label(__('filament.blog.articles.table.author'))
                     ->relationship('author', 'name'),
                 Filter::make('publish_at')
-                    ->label('Дата публикации')
+                    ->label(__('filament.blog.articles.table.published_at'))
                     ->form([
-                        DatePicker::make('from')->label('Опубликовано от'),
-                        DatePicker::make('until')->label('Опубликовано до'),
+                        DatePicker::make('from')->label(__('filament.blog.articles.table.published_from')),
+                        DatePicker::make('until')->label(__('filament.blog.articles.table.published_until')),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -96,24 +96,24 @@ class BlogArticlesTable
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
                         if (! empty($data['from'])) {
-                            $indicators[] = 'От: ' . $data['from'];
+                            $indicators[] = __('filament.blog.articles.table.indicator_from', ['date' => $data['from']]);
                         }
                         if (! empty($data['until'])) {
-                            $indicators[] = 'До: ' . $data['until'];
+                            $indicators[] = __('filament.blog.articles.table.indicator_until', ['date' => $data['until']]);
                         }
                         return $indicators;
                     }),
             ])
             ->defaultSort('publish_at', 'desc')
             ->recordActions([
-                ViewAction::make()->label('Просмотр'),
-                EditAction::make()->requiresConfirmation()->label('Изменить'),
-                DeleteAction::make()->requiresConfirmation()->label('Удалить'),
+                ViewAction::make()->label(__('filament.actions.view')),
+                EditAction::make()->requiresConfirmation()->label(__('filament.actions.edit')),
+                DeleteAction::make()->requiresConfirmation()->label(__('filament.actions.delete')),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('publish')
-                        ->label('Опубликовать')
+                        ->label(__('filament.blog.articles.actions.publish'))
                         ->icon('heroicon-o-cloud-arrow-up')
                         ->action(function (Collection $records) {
                             $count = $records->count();
@@ -122,7 +122,7 @@ class BlogArticlesTable
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('unpublish')
-                        ->label('Перевести в черновик')
+                        ->label(__('filament.blog.articles.actions.move_to_draft'))
                         ->icon('heroicon-o-archive-box-arrow-down')
                         ->action(function (Collection $records) {
                             $count = $records->count();
@@ -131,11 +131,11 @@ class BlogArticlesTable
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('assignCategory')
-                        ->label('Присвоить категорию')
+                        ->label(__('filament.blog.articles.actions.assign_category'))
                         ->icon('heroicon-o-rectangle-stack')
                         ->form([
                             Select::make('category_id')
-                                ->label('Category')
+                                ->label(__('filament.blog.articles.fields.category'))
                                 ->options(BlogCategory::query()->orderBy('name')->pluck('name', 'id'))
                                 ->searchable()
                                 ->required(),
@@ -148,22 +148,28 @@ class BlogArticlesTable
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('markFeatured')
-                        ->label('Пометить как избранное')
+                        ->label(__('filament.blog.articles.actions.mark_featured'))
                         ->icon('heroicon-o-star')
                         ->action(function (Collection $records) {
                             $records->each->update(['featured' => true]);
-                            AdminNotifications::success('Updated', "{$records->count()} article(s) marked as featured");
+                            AdminNotifications::success(
+                                __('filament.blog.articles.actions.featured_updated_title'),
+                                __('filament.blog.articles.actions.featured_marked', ['count' => $records->count()])
+                            );
                         })
                         ->requiresConfirmation(),
                     BulkAction::make('unmarkFeatured')
-                        ->label('Удалить из избранного')
+                        ->label(__('filament.blog.articles.actions.unmark_featured'))
                         ->icon('heroicon-o-star')
                         ->action(function (Collection $records) {
                             $records->each->update(['featured' => false]);
-                            AdminNotifications::success('Updated', "{$records->count()} article(s) removed from featured");
+                            AdminNotifications::success(
+                                __('filament.blog.articles.actions.featured_updated_title'),
+                                __('filament.blog.articles.actions.featured_unmarked', ['count' => $records->count()])
+                            );
                         })
                         ->requiresConfirmation(),
-                    DeleteBulkAction::make()->label('Удалить выделенные'),
+                    DeleteBulkAction::make()->label(__('filament.actions.delete_selected')),
                 ]),
             ]);
     }

@@ -21,13 +21,38 @@ class BlogTagResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static UnitEnum|string|null $navigationGroup = 'Библиотека';
-    protected static ?string $navigationParentItem = 'Статьи блога';
-    protected static ?string $navigationLabel = 'Теги блога';
+    protected static UnitEnum|string|null $navigationGroup = null;
+    protected static ?string $navigationParentItem = null;
+    protected static ?string $navigationLabel = null;
     protected static ?int $navigationSort = 3;
 
-    protected static ?string $modelLabel = 'Тег';
-    protected static ?string $pluralModelLabel = 'Теги блога';
+    protected static ?string $modelLabel = null;
+    protected static ?string $pluralModelLabel = null;
+
+    public static function getNavigationGroup(): BackedEnum|string|null
+    {
+        return __('filament.blog.navigation.library');
+    }
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('filament.blog.navigation.articles');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('filament.blog.navigation.tags');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('filament.blog.tags.model_label');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('filament.blog.tags.plural_label');
+    }
 
 
     public static function form(Schema $schema): Schema

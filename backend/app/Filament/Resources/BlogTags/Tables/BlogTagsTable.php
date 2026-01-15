@@ -29,24 +29,24 @@ class BlogTagsTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
-                    ->label('Название')
+                    ->label(__('filament.fields.name'))
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('slug')
-                    ->label('Slug')
+                    ->label(__('filament.fields.slug'))
                     ->searchable()
                     ->toggleable(),
                 TextColumn::make('articles_count')
-                    ->label('Статьи')
+                    ->label(__('filament.blog.tags.table.articles'))
                     ->counts('articles')
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Создано')
+                    ->label(__('filament.fields.created_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                    ->label('Обновлено')
+                    ->label(__('filament.fields.updated_at'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -56,10 +56,10 @@ class BlogTagsTable
                 //
             ])
             ->recordActions([
-                ViewAction::make()->label('Просмотр'),
-                EditAction::make()->label('Изменить'),
+                ViewAction::make()->label(__('filament.actions.view')),
+                EditAction::make()->label(__('filament.actions.edit')),
                 DeleteAction::make()
-                    ->label('Удалить')
+                    ->label(__('filament.actions.delete'))
                     ->disabled(fn ($record) => $record->isUsed())
                     ->tooltip(fn ($record) => $record->isUsed() ? $record->deleteBlockReason() : null),
             ])

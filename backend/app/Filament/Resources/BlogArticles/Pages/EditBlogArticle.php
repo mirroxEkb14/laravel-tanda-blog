@@ -20,14 +20,14 @@ class EditBlogArticle extends EditRecord
     {
         return [
             Action::make('moveToDraft')
-                ->label('Перенести в черновик')
+                ->label(__('filament.blog.articles.actions.move_to_draft'))
                 ->color('warning')
                 ->visible(fn () => $this->record->status === BlogArticleStatus::Published->value)
                 ->requiresConfirmation()
-                ->modalHeading('Перенести статью в черновик?')
-                ->modalDescription('Это снимет статью с публикации и исключит её из API')
-                ->modalSubmitActionLabel('Подтвердить')
-                ->modalCancelActionLabel('Отмена')
+                ->modalHeading(__('filament.blog.articles.actions.draft_modal_heading'))
+                ->modalDescription(__('filament.blog.articles.actions.draft_modal_description'))
+                ->modalSubmitActionLabel(__('filament.actions.confirm'))
+                ->modalCancelActionLabel(__('filament.actions.cancel'))
                 ->action(function () {
                     $this->record->update([
                         'status' => BlogArticleStatus::Draft->value,

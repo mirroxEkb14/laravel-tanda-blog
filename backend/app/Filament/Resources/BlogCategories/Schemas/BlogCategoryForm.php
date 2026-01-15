@@ -14,33 +14,33 @@ class BlogCategoryForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-             Section::make('Категория')
+             Section::make(__('filament.blog.categories.section'))
                 ->columns(2)
                 ->schema([
                     TextInput::make('name')
-                        ->label('Название')
+                        ->label(__('filament.fields.name'))
                         ->required()
                         ->maxLength(120)
                         ->live(onBlur: true)
                         ->afterStateUpdated(ResourceHelper::autoSlug('slug')),
                     TextInput::make('slug')
-                        ->label('Slug')
+                        ->label(__('filament.fields.slug'))
                         ->required()
                         ->maxLength(160)
                         ->unique(ignoreRecord: true),
                     Textarea::make('description')
-                        ->label('Описание')
+                        ->label(__('filament.fields.description'))
                         ->rows(4)
                         ->columnSpanFull(),
                 ]),
-            Section::make('SEO')
+            Section::make(__('filament.sections.seo'))
                 ->collapsed()
                 ->schema([
                     TextInput::make('seo_title')
-                        ->label('SEO Заголовок')
+                        ->label(__('filament.fields.seo_title'))
                         ->maxLength(255),
                     Textarea::make('seo_description')
-                        ->label('SEO Описание')
+                        ->label(__('filament.fields.seo_description'))
                         ->rows(3)
                         ->maxLength(255)
                         ->columnSpanFull(),

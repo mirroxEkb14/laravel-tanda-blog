@@ -14,7 +14,7 @@ class EditBlogCategory extends EditRecord
     {
         return [
             DeleteAction::make()
-                ->label('Удалить')
+                ->label(__('filament.actions.delete'))
                 ->disabled(fn () => $this->record->isUsed())
                 ->tooltip(fn () => $this->record->isUsed() ? $this->record->deleteBlockReason() : null)
                 ->requiresConfirmation(),

@@ -13,7 +13,7 @@ class ListBlogCategories extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->label('Создать'),
+            CreateAction::make()->label(__('filament.actions.create')),
         ];
     }
 }
