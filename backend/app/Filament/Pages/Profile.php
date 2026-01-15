@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use BackedEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
@@ -12,11 +13,11 @@ class Profile extends Page
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static BackedEnum|string|null $navigationIcon = 'heroicon-o-user';
 
     protected static ?int $navigationSort = 100;
 
-    protected static string $view = 'filament.pages.profile';
+    protected string $view = 'filament.pages.profile';
 
     public array $data = [];
 
