@@ -65,32 +65,222 @@ laravel-tanda-blog/
 4. Open Admin panel on http://localhost:8080/admin after waiting containers setup up for ~1 minute (until "*Press Ctrl+C to stop the server*" message in Docker Desktop).
     -  Default admin credentials: admin@tandateam.kz, qwerty123456.
 
-## 📊 Test API endpoints
+## 📊 API endpoints
 
-- Test a list of articles with pagination, with filters: category, tag, type, search:
-```code
-GET http://localhost:8080/api/blog/articles?page=1&per_page=12
-GET http://localhost:8080/api/blog/articles?category=schools
-GET http://localhost:8080/api/blog/articles?tag=education
-GET http://localhost:8080/api/blog/articles?type=school
-GET http://localhost:8080/api/blog/articles?search=private
+<b>Note</b>: The responses below were gotten considering the articles seeder used in the project.
+
+- Articles:
+```
+GET /api/blog/articles
+```
+```
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "How to Choose the Right Private School",
+            "slug": "how-to-choose-private-school",
+            "excerpt": "A practical guide for parents choosing a private school.",
+            "cover_image": null,
+            "reading_time": 0,
+            "publish_at": "2026-01-06"
+        }
+    ],
+    "meta": {
+        "page": 1,
+        "per_page": 9,
+        "total": 2,
+        "last_page": 1
+    }
+}
 ```
 
-- Test an article by slug, gworing 'views_count':
-```code
-GET http://localhost:8080/api/blog/articles/how-to-choose-private-school
+- Featured Articles:
+```
+GET /api/blog/articles/featured
+```
+```
+{
+    "data": [
+        {
+            "id": 1,
+            "title": "How to Choose the Right Private School",
+            "slug": "how-to-choose-private-school",
+            "excerpt": "A practical guide for parents choosing a private school.",
+            "cover_image": null,
+            "reading_time": 0,
+            "publish_at": "2026-01-06"
+        }
+    ]
+}
 ```
 
-- Test categories, tags and related articles:
-```code
-GET http://localhost:8080/api/blog/categories
-GET http://localhost:8080/api/blog/tags
-GET http://localhost:8080/api/blog/articles/2/related
+- Related Articles (ID: <i>1</i>):
+```
+GET /api/blog/articles/{id}/related
+```
+```
+{
+    "data": [
+        {
+            "id": 2,
+            "title": "IELTS Preparation Tips for 2025",
+            "slug": "ielts-preparation-tips-2025",
+            "excerpt": "What to focus on when preparing for IELTS.",
+            "cover_image": null,
+            "reading_time": 1,
+            "publish_at": "2026-01-14"
+        },
+        {
+            "id": 3,
+            "title": "Common Mistakes Parents Make When Choosing Schools",
+            "slug": "common-parent-mistakes-schools",
+            "excerpt": "Avoid these common pitfalls.",
+            "cover_image": null,
+            "reading_time": 1,
+            "publish_at": null
+        }
+    ],
+    "meta": {
+        "page": 1,
+        "per_page": 6,
+        "total": 2,
+        "last_page": 1
+    }
+}
 ```
 
-- Test errors:
-```code
-GET http://localhost:8080/api/blog/articles/no-such-slug
+<b>Note</b>: The related articles are fetched based on <i>(Category) OR (Tags)</i> matching. The response includes only published articles.
+
+- Article by slug (Slug: <i>ielts-preparation-tips-2025</i>):
+```
+GET /api/blog/articles/{slug}
+```
+```
+{
+    "data": {
+        "id": 2,
+        "title": "IELTS Preparation Tips for 2025",
+        "slug": "ielts-preparation-tips-2025",
+        "excerpt": "What to focus on when preparing for IELTS.",
+        "content": "<p>IELTS preparation requires a structured approach...</p>",
+        "cover_image": null,
+        "reading_time": 0,
+        "publish_at": "2026-01-14 03:14:45",
+        "views_count": 1,
+        "category": {
+            "id": 3,
+            "name": "Exams & IELTS",
+            "slug": "exams-ielts"
+        },
+        "tags": [
+            {
+                "id": 3,
+                "name": "Admissions",
+                "slug": "admissions",
+                "pivot": {
+                    "blog_article_id": 2,
+                    "blog_tag_id": 3
+                }
+            },
+            {
+                "id": 4,
+                "name": "Abroad",
+                "slug": "abroad",
+                "pivot": {
+                    "blog_article_id": 2,
+                    "blog_tag_id": 4
+                }
+            },
+            {
+                "id": 5,
+                "name": "Preparation",
+                "slug": "preparation",
+                "pivot": {
+                    "blog_article_id": 2,
+                    "blog_tag_id": 5
+                }
+            }
+        ],
+        "author": {
+            "id": 1,
+            "name": "Admin"
+        },
+        "seo": {
+            "title": null,
+            "description": null,
+            "keywords": null,
+            "canonical_url": null
+        }
+    }
+}
+```
+
+- Categories:
+```
+GET /api/blog/categories
+```
+```
+{
+    "data": [
+        {
+            "id": 3,
+            "name": "Exams & IELTS",
+            "slug": "exams-ielts"
+        },
+        {
+            "id": 2,
+            "name": "Kindergartens",
+            "slug": "kindergartens"
+        },
+        {
+            "id": 1,
+            "name": "Schools",
+            "slug": "schools"
+        }
+    ]
+}
+```
+
+- Tags:
+```
+GET /api/blog/tags
+```
+```
+{
+    "data": [
+        {
+            "id": 4,
+            "name": "Abroad",
+            "slug": "abroad"
+        },
+        {
+            "id": 3,
+            "name": "Admissions",
+            "slug": "admissions"
+        },
+        {
+            "id": 1,
+            "name": "Education",
+            "slug": "education"
+        },
+        {
+            "id": 2,
+            "name": "Parents",
+            "slug": "parents"
+        },
+        {
+            "id": 5,
+            "name": "Preparation",
+            "slug": "preparation"
+        },
+        {
+            "id": 6,
+            "name": "Tips",
+            "slug": "tips"
+        }
+    ]
+}
 ```
 
 ## 📩 Contacts
@@ -113,10 +303,8 @@ GET http://localhost:8080/api/blog/articles/no-such-slug
 - реализовать Future features
 - update seeders: more complicated
 
-? api to use controller only once, articlebyslag – send the same query, reorder for atricles
+Notes:
+<br>
+liked articles, api to use controller only once, articlebyslag – send the same query, reorder for atricles
 
 'http://localhost:8080/api/blog/articles/1/related' not working, 'http://localhost:8080/api/blog/articles?category=schools' returns only with ID 1 (but ID 3 also Schools),
-
-git push -u origin feature/blog-admin
-
-reorder by drag-&-drop, liked articles, translate into Rus
