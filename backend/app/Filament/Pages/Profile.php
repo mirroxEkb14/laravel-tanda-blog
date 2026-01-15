@@ -5,9 +5,9 @@ namespace App\Filament\Pages;
 use BackedEnum;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Filament\Schemas\Schema;
 
 class Profile extends Page
 {
@@ -38,9 +38,9 @@ class Profile extends Page
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
                 Select::make('locale')
                     ->label(__('filament.profile.language_label'))
