@@ -6,7 +6,9 @@ namespace App\Filament\Resources\Shield;
 
 use App\Filament\Resources\Shield\RoleResource\Pages;
 use BezhanSalleh\FilamentShield\Resources\RoleResource as BaseRoleResource;
-use Filament\Tables;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Table;
 
 class RoleResource extends BaseRoleResource
@@ -16,9 +18,9 @@ class RoleResource extends BaseRoleResource
         $table = parent::table($table);
 
         return $table->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
+            ViewAction::make(),
+            EditAction::make(),
+            DeleteAction::make(),
         ]);
     }
 
