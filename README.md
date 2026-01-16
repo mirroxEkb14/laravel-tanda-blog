@@ -69,6 +69,8 @@ laravel-tanda-blog/
 
 ## 📊 API endpoints
 
+The project uses Swagger available at <b>/docs/swagger</b> and <b>/docs/swagger.json</b>.
+
 > To see the full API endpoints list with accurate response bodies, visit <a href="https://www.notion.so/Tanda-Blog-Backend-160350f4e44880dabf59e7782d031343?source=copy_link" target="_blank">Notion</a>.
 
 ```
