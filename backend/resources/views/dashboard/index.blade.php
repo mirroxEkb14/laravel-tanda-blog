@@ -20,7 +20,7 @@
                         <img
                             src="{{ $article->cover_image }}"
                             alt="{{ $article->title }}"
-                            class="h-28 w-full rounded-xl border border-slate-800 object-cover md:h-24 md:w-40"
+                            class="h-24 w-32 shrink-0 rounded-xl border border-slate-800 object-cover md:h-28 md:w-44"
                         >
                     @endif
                     <div class="flex-1">
