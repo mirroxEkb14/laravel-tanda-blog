@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\Shield;
+
+use App\Filament\Resources\Shield\RoleResource\Pages;
+use BezhanSalleh\FilamentShield\Resources\RoleResource as BaseRoleResource;
+use Filament\Tables;
+use Filament\Tables\Table;
+
+class RoleResource extends BaseRoleResource
+{
+    public static function table(Table $table): Table
+    {
+        $table = parent::table($table);
+
+        return $table->actions([
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ]);
+    }
+
+    public static function getPages(): array
+    {
+        $pages = parent::getPages();
+
+        if (! array_key_exists('view', $pages)) {
+            $pages['view'] = Pages\ViewRole::route('/{record}');
+        }
+
+        return $pages;
+    }
+}

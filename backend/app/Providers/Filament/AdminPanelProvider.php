@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Profile;
+use App\Filament\Resources\Shield\RoleResource as ShieldRoleResource;
 use App\Http\Middleware\SetAdminLocale;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
@@ -71,6 +72,7 @@ class AdminPanelProvider extends PanelProvider
         $plugins = [];
 
         if (class_exists(FilamentShieldPlugin::class)) {
+            config(['filament-shield.resources.role' => ShieldRoleResource::class]);
             $plugins[] = FilamentShieldPlugin::make();
         }
 
