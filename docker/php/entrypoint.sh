@@ -21,7 +21,7 @@ chmod -R 775 storage bootstrap/cache >/dev/null 2>&1 || true
 
 echo "==> Installing composer dependencies (if needed)..."
 if [ ! -f "vendor/autoload.php" ]; then
-  composer install --no-interaction --prefer-dist || true
+  composer install --no-interaction --prefer-dist
 fi
 
 echo "==> Ensuring Filament Shield & Spatie Permission are installed..."
