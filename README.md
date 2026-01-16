@@ -1,6 +1,6 @@
 # Tanda Blog (Backend)
 
-The project represents a standalone backend prototype for the **Blog/Articles** module of the Tanda startup project.
+The project represents a standalone backend prototype for the **Blog/Articles** module of the Tanda startup project, including <i>admin panel</i>, <i>user authentication</i>, <i>public API</i>, <i>Swagger docs</i>.
 
 ## 🎥 Demo
 
@@ -17,7 +17,9 @@ The project represents a standalone backend prototype for the **Blog/Articles** 
 ![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-7-DC382D?logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)
-
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
+![Auth](https://img.shields.io/badge/Auth-Laravel%20Auth-4CAF50)
+![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?logo=swagger&logoColor=black)
 
 ## 📁 Project Structure
 
@@ -60,14 +62,44 @@ laravel-tanda-blog/
 > cd laravel-tanda-blog/
 ```
 2. <b>Open</b> */docker/php/entrypoint.sh* and */docker/php/entrypoint-scheduler.sh* in Visual Studio and select **LF** instead of **CRLF** to avoid Windows-Linux line-endings problem.
-3. <b>Start</b> the containers (~200 secs in GitBash so start the containers and ~60 secs in Docker Desktop to run the entrypoint scripts):
+3. <b>Start</b> the containers:
+   - ~3,2 mins in GitBash so start the containers,
+   - ~60 secs in Docker Desktop to run the entrypoint scripts,
+   - ~1,5 min to setup Vite dependencies.
 ```code
 > docker compose up -d --build
 ```
 4. <b>Navigate</b> to Admin panel on http://localhost:8080/admin after waiting containers setup (until "*Press Ctrl+C to stop the server*" message in Docker Desktop).
-    -  Default admin credentials: admin@tandakids.kz, qwerty123456.
+   - Default Super Admin credentials:  <i>superadmin@tandakids.kz</i>, <i>qwerty123456</i>.
+   - Default Admin credentials: <i>admin@tandakids.kz</i>, <i>qwerty123456</i>.
+
+## 👤 User Authentication
+
+The project includes custom user registration and authentication with email verification, implemented using Laravel’s built-in auth mechanisms.
+
+1. Registration:
+   - <b>/register</b> endpoint,
+   - email verification link after registration.
+2. Email Verification:
+   - <b>/verify-email</b> endpoint,
+   - <b>note</b>: other routes are unavailable until email verification.
+3. Login:
+   - <b>/login</b> endpoint.
+4. Dashboard:
+   - <b>/dashboard</b> endpoint,
+   - protected by auth + verified middleware.
+
+<b>Note</b>: Roles and permissions for admin panel (<b>/admin</b>) are managed via <i>Spatie Permission</i> + <i>Filament Shield</i>.
+
+### ✉️ Mail Configuration
+
+It's needed to set up Gmail SMTP in .env, specifically:
+- <i>MAIL_USERNAME</i> and <i>MAIL_FROM_ADDRESS</i> – one same email address,
+- <i>MAIL_PASSWORD</i> – Gmail App Password (16 characters).
 
 ## 📊 API endpoints
+
+The project uses Swagger available at <b>/docs/swagger</b> and <b>/docs/swagger.json</b>.
 
 > To see the full API endpoints list with accurate response bodies, visit <a href="https://www.notion.so/Tanda-Blog-Backend-160350f4e44880dabf59e7782d031343?source=copy_link" target="_blank">Notion</a>.
 
@@ -85,19 +117,19 @@ GET /api/blog/tags
 [![GitHub](https://img.shields.io/badge/GitHub-mirroxEkb14-181717?logo=github&logoColor=white)](https://github.com/mirroxEkb14)
 [![GitLab](https://img.shields.io/badge/GitLab-vance__7187-FCA121?logo=gitlab&logoColor=white)](https://gitlab.com/vance_7187)
 
-## TODO
+## 🧭 TODO / Future Improvements
 
-сделать:
-- загружать обложки cover_upload через S3 (не локальный public disk),
-- реализовать WYSIWYG для вставки/загрузки изображений (сейчас только базовый, RichEditor),
-- добавить preview статьи,
-- добавить related_articles[] внутри ответа статьи,
-- реализовать cover_image как полноценный URL (https://cdn/...),
-- реализовать UI/UX требования для фронта,
-- ограничить роли по admin/editor,
-- добавить XSS защиту (sanitization) (WYSIWYG),
-- реализовать блок Аналитики (фронт) (показатели views_count, related_articles, reading_time уже есть),
-- реализовать Future features
-- update seeders: more complicated
+- Upload article cover images to S3 (instead of local `public` disk)
+- Improve WYSIWYG editor:
+   - Image upload
+   - Image embedding
+   - XSS sanitization
+- Add article preview before publishing
+- Include `related_articles[]` in article API response
+- Return full CDN URLs for `cover_image`
+- Improve frontend UI/UX requirements
+- Restrict admin roles (`admin`, `editor`)
+- Add analytics block (views_count, reading_time, related_articles already exist)
+- Improve seeders (more realistic demo data)
 
 <b>Notes</b>: liked articles, api to use controller only once, articlebyslag – send the same query, reorder for atricles
