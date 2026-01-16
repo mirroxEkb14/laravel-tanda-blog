@@ -5,7 +5,10 @@ namespace Database\Seeders;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -19,6 +22,24 @@ class RolesAndUsersSeeder extends Seeder
             Role::firstOrCreate(
                 ['name' => $role->value, 'guard_name' => 'web']
             );
+        }
+
+        Artisan::call('shield:generate', [
+            '--all' => true,
+            '--panel' => 'admin',
+            '--no-interaction' => true,
+        ]);
+
+        $permissions = Permission::query()->pluck('name');
+
+        if ($permissions->isNotEmpty()) {
+            Role::findByName(RoleEnum::SuperAdmin->value)->syncPermissions($permissions);
+
+            $adminPermissions = $permissions->reject(
+                fn (string $permission) => Str::contains($permission, ['role', 'permission'])
+            );
+
+            Role::findByName(RoleEnum::Admin->value)->syncPermissions($adminPermissions);
         }
 
         $users = [
