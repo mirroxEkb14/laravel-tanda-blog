@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Filament\Resources\Shield;
+namespace App\Filament\ShieldResources;
 
-use App\Filament\Resources\Shield\RoleResource\Pages;
+use App\Filament\ShieldResources\RoleResource\Pages;
 use BezhanSalleh\FilamentShield\Resources\RoleResource as BaseRoleResource;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
