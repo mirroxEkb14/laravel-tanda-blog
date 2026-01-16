@@ -27,7 +27,7 @@ fi
 echo "==> Ensuring Filament Shield & Spatie Permission are installed..."
 if ! grep -q '"bezhansalleh/filament-shield"' composer.lock 2>/dev/null || ! grep -q '"spatie/laravel-permission"' composer.lock 2>/dev/null; then
   echo "==> Updating composer.lock for RBAC packages..."
-  composer update bezhansalleh/filament-shield spatie/laravel-permission --no-interaction --prefer-dist
+  composer install --no-interaction --prefer-dist --no-progress
 fi
 
 echo "==> Finalizing composer install..."

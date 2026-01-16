@@ -53,6 +53,7 @@ services:
     working_dir: /var/www/backend
     volumes:
       - ./:/var/www
+      - backend_node_modules:/var/www/backend/node_modules
     ports:
       - "5173:5173"
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
@@ -83,3 +84,4 @@ volumes:
   backend_vendor:
   backend_storage:
   backend_cache:
+  backend_node_modules:
