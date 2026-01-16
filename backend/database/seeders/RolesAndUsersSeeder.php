@@ -6,6 +6,8 @@ use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -82,6 +84,28 @@ class RolesAndUsersSeeder extends Seeder
             );
 
             $user->syncRoles([$userData['role']]);
+        }
+
+        $permissions = Permission::query()->get();
+
+        $superAdminRole = Role::firstWhere('name', RoleEnum::SuperAdmin->value);
+        $adminRole = Role::firstWhere('name', RoleEnum::Admin->value);
+        $userRole = Role::firstWhere('name', RoleEnum::User->value);
+
+        if ($superAdminRole) {
+            $superAdminRole->syncPermissions($permissions);
+        }
+
+        if ($adminRole) {
+            $adminRole->syncPermissions(
+                $permissions->reject(
+                    fn (Permission $permission) => Str::contains($permission->name, ['role', 'permission'])
+                )
+            );
+        }
+
+        if ($userRole) {
+            $userRole->syncPermissions([]);
         }
     }
 }
