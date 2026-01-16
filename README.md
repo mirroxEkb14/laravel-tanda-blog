@@ -97,6 +97,17 @@ It's needed to set up Gmail SMTP in .env, specifically:
 - <i>MAIL_USERNAME</i> and <i>MAIL_FROM_ADDRESS</i> – one same email address,
 - <i>MAIL_PASSWORD</i> – Gmail App Password (16 characters).
 
+### 📚 User Dashboard
+
+The project includes a User Dashboard that allows registered users to browse and read published blog content outside of the admin panel.
+- Dashboard homepage (<b>/dashboard</b>):
+  - displays a list of published articles.
+- Article page (<b>/dashboard/articles/{slug}</b>):
+  - displays the full article content.
+- Author page (<b>/dashboard/authors/{user}</b>):
+  - displays author details,
+  - lists all published articles written by the selected author.
+
 ## 📊 API endpoints
 
 The project uses Swagger available at <b>/docs/swagger</b> and <b>/docs/swagger.json</b>.
