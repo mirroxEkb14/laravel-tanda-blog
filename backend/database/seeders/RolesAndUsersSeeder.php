@@ -118,6 +118,7 @@ class RolesAndUsersSeeder extends Seeder
                 [
                     'name' => $userData['name'],
                     'password' => $userData['password'],
+                    'email_verified_at' => now(),
                 ]
             );
 
