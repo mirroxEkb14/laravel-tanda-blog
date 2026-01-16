@@ -21,6 +21,17 @@ chmod -R 775 storage bootstrap/cache >/dev/null 2>&1 || true
 
 echo "==> Installing composer dependencies (if needed)..."
 if [ ! -f "vendor/autoload.php" ]; then
+  composer install --no-interaction --prefer-dist || true
+fi
+
+echo "==> Ensuring Filament Shield & Spatie Permission are installed..."
+if ! grep -q '"bezhansalleh/filament-shield"' composer.lock 2>/dev/null || ! grep -q '"spatie/laravel-permission"' composer.lock 2>/dev/null; then
+  echo "==> Updating composer.lock for RBAC packages..."
+  composer update bezhansalleh/filament-shield spatie/laravel-permission --no-interaction --prefer-dist
+fi
+
+echo "==> Finalizing composer install..."
+if [ ! -f "vendor/autoload.php" ]; then
   composer install --no-interaction --prefer-dist
 fi
 
