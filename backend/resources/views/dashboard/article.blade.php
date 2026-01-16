@@ -28,7 +28,9 @@
         <img
             src="{{ $article->cover_image }}"
             alt="{{ $article->title }}"
-            class="mt-8 h-72 w-full rounded-2xl border border-slate-800 object-cover"
+            width="800"
+            height="288"
+            class="h-24 w-32 shrink-0 rounded-xl border border-slate-800 object-cover md:h-28 md:w-44"
         >
     @endif
 
