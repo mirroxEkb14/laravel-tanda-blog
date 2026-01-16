@@ -15,6 +15,13 @@
     <div class="mt-8 space-y-6">
         @forelse ($articles as $article)
             <article class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 shadow-lg">
+                @if ($article->cover_image)
+                    <img
+                        src="{{ $article->cover_image }}"
+                        alt="{{ $article->title }}"
+                        class="h-48 w-full rounded-xl border border-slate-800 object-cover"
+                    >
+                @endif
                 <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.2em] text-slate-400">
                     <span>Published</span>
                     @if ($article->publish_at)

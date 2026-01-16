@@ -24,6 +24,14 @@
         </div>
     </div>
 
+    @if ($article->cover_image)
+        <img
+            src="{{ $article->cover_image }}"
+            alt="{{ $article->title }}"
+            class="mt-8 h-72 w-full rounded-2xl border border-slate-800 object-cover"
+        >
+    @endif
+
     <div class="article-content mt-8">
         {!! $article->content !!}
     </div>
