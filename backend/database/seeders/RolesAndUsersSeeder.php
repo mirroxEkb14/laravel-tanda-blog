@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
@@ -19,6 +21,44 @@ class RolesAndUsersSeeder extends Seeder
             Role::firstOrCreate(
                 ['name' => $role->value, 'guard_name' => 'web']
             );
+        }
+
+        $legacySuperAdmin = Role::query()
+            ->where('name', 'super admin')
+            ->where('guard_name', 'web')
+            ->first();
+        $canonicalSuperAdmin = Role::query()
+            ->where('name', RoleEnum::SuperAdmin->value)
+            ->where('guard_name', 'web')
+            ->first();
+
+        if ($legacySuperAdmin && ! $canonicalSuperAdmin) {
+            $legacySuperAdmin->update(['name' => RoleEnum::SuperAdmin->value]);
+            $canonicalSuperAdmin = $legacySuperAdmin;
+        } elseif ($legacySuperAdmin && $canonicalSuperAdmin) {
+            $legacySuperAdmin->delete();
+        }
+
+        Artisan::call('shield:generate', [
+            '--all' => true,
+            '--panel' => 'admin',
+            '--no-interaction' => true,
+        ]);
+
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
+        $permissions = Permission::query()->pluck('name');
+
+        if ($permissions->isNotEmpty()) {
+            Role::findByName(RoleEnum::SuperAdmin->value)->syncPermissions($permissions);
+
+            $adminPermissions = Permission::query()
+                ->whereNot(fn ($query) => $query
+                    ->where('name', 'like', '%role%')
+                    ->orWhere('name', 'like', '%permission%'))
+                ->pluck('name');
+
+            Role::findByName(RoleEnum::Admin->value)->syncPermissions($adminPermissions);
         }
 
         $users = [
